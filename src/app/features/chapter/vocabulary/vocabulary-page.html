@@ -1,0 +1,58 @@
+<header class="heading">
+  <div>
+    <h2>Wortschatz</h2>
+    <p><strong>{{ knownCount() }}</strong> von {{ cards().length }} Wörtern gelernt</p>
+  </div>
+
+  <div class="mode card" role="group" aria-label="Ansicht">
+    <button type="button" [class.is-active]="mode() === 'cards'" [attr.aria-pressed]="mode() === 'cards'" (click)="mode.set('cards')">
+      <app-icon name="layers" [size]="18" /> Karten
+    </button>
+    <button type="button" [class.is-active]="mode() === 'list'" [attr.aria-pressed]="mode() === 'list'" (click)="mode.set('list')">
+      <app-icon name="list" [size]="18" /> Liste
+    </button>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="chips" role="group" aria-label="Kategorie">
+    <button type="button" class="chip" [class.is-active]="category() === all" [attr.aria-pressed]="category() === all" (click)="category.set(all)">
+      Alle
+    </button>
+    @for (item of categories(); track item.id) {
+      <button
+        type="button"
+        class="chip"
+        [class.is-active]="category() === item.id"
+        [attr.aria-pressed]="category() === item.id"
+        (click)="category.set(item.id)"
+      >
+        {{ item.title }}
+      </button>
+    }
+  </div>
+
+  <div class="filters__row">
+    <label class="toggle">
+      <input type="checkbox" [checked]="onlyOpen()" (change)="onlyOpen.set(!onlyOpen())" />
+      <span class="toggle__track" aria-hidden="true"></span>
+      Nur noch nicht gelernte Wörter
+    </label>
+    @if (knownCount() > 0) {
+      <button type="button" class="link-button" (click)="resetProgress()">
+        <app-icon name="rotate-ccw" [size]="16" /> Fortschritt zurücksetzen
+      </button>
+    }
+  </div>
+</div>
+
+@if (selection().length === 0) {
+  <div class="empty card">
+    <app-icon name="trophy" [size]="36" />
+    <p>Alle Wörter in dieser Auswahl hast du schon gelernt. Super!</p>
+  </div>
+} @else if (mode() === 'cards') {
+  <app-flashcard-deck [cards]="selection()" />
+} @else {
+  <app-word-list [groups]="groups()" />
+}

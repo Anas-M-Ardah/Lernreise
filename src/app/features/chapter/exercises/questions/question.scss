@@ -1,0 +1,209 @@
+// Shared styles for all question types.
+
+:host {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.sentence {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+.hint {
+  margin-top: calc(-1 * var(--space-3));
+  font-weight: 600;
+  color: var(--color-fg-muted);
+}
+
+// ---------- Choice ----------
+
+.gap {
+  display: inline-block;
+  min-width: 6ch;
+  margin: 0 0.2em;
+  padding: 0 0.4em;
+  border-bottom: 3px dashed var(--color-primary);
+  color: var(--color-primary);
+  text-align: center;
+
+  &--filled {
+    border-bottom-style: solid;
+    animation: pop var(--duration-base) var(--ease-spring);
+  }
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+}
+
+.option {
+  min-height: 56px;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-clay);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--correct {
+    border-color: var(--color-success);
+    background: var(--color-success-soft);
+    color: var(--color-success);
+    animation: pop var(--duration-base) var(--ease-spring);
+  }
+
+  &--wrong {
+    border-color: var(--color-danger);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    animation: shake 380ms var(--ease-out);
+  }
+}
+
+// ---------- Gap ----------
+
+.gap-form {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+}
+
+.gap-input {
+  width: calc(var(--chars, 12) * 1ch);
+  max-width: 100%;
+  margin: 0 0.2em;
+  padding: 0.1em 0.4em;
+  border: 0;
+  border-bottom: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: var(--color-primary-soft);
+  font: inherit;
+  color: var(--color-fg);
+  outline: none;
+  transition: background-color var(--duration-fast) var(--ease-out);
+
+  &:focus-visible {
+    background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  }
+
+  &--correct {
+    border-color: var(--color-success);
+    background: var(--color-success-soft);
+    color: var(--color-success);
+  }
+
+  &--wrong {
+    border-color: var(--color-danger);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    animation: shake 380ms var(--ease-out);
+  }
+}
+
+// ---------- Order ----------
+
+.answer-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: var(--space-2);
+  min-height: 76px;
+  padding: var(--space-3);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-base) var(--ease-out);
+
+  &__placeholder {
+    align-self: center;
+    color: var(--color-fg-muted);
+  }
+
+  &--correct {
+    border-style: solid;
+    border-color: var(--color-success);
+    background: var(--color-success-soft);
+  }
+
+  &--wrong {
+    border-style: solid;
+    border-color: var(--color-danger);
+    background: var(--color-danger-soft);
+    animation: shake 380ms var(--ease-out);
+  }
+}
+
+.pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-height: 48px;
+}
+
+.token {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-clay);
+  animation: pop var(--duration-base) var(--ease-spring);
+  transition: transform var(--duration-fast) var(--ease-out);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--placed {
+    background: var(--color-primary-soft);
+    border-color: transparent;
+    color: var(--color-primary);
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+  }
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}

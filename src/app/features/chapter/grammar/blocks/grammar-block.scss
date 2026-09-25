@@ -1,0 +1,112 @@
+:host {
+  display: block;
+}
+
+.text {
+  font-size: 1.05rem;
+  max-width: 70ch;
+}
+
+.rule {
+  --highlight-background: var(--color-surface);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+  border-left: 5px solid var(--color-primary);
+
+  &__title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  ul {
+    display: grid;
+    gap: var(--space-2);
+    margin: var(--space-3) 0 0;
+    padding-left: var(--space-5);
+  }
+}
+
+.tip {
+  --highlight-background: transparent;
+  --highlight-color: var(--color-warning);
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-soft);
+  color: var(--color-fg);
+
+  app-icon {
+    color: var(--color-warning);
+    margin-top: 2px;
+  }
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+caption {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-weight: 800;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+th,
+td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-fg-muted);
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody tr:hover {
+  background: var(--color-surface-2);
+}
+
+.examples {
+  &__title {
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  ul {
+    display: grid;
+    gap: var(--space-2);
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+  }
+}

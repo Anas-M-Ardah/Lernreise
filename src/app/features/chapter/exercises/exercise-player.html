@@ -1,0 +1,84 @@
+<a class="back" routerLink="../"><app-icon name="arrow-left" [size]="18" /> Alle Übungen</a>
+
+@if (set(); as set) {
+  <section class="player card">
+    <header class="player__header">
+      <div>
+        <h2 class="player__title">{{ set.title }}</h2>
+        <p class="player__description">{{ set.description }}</p>
+      </div>
+      @if (!finished()) {
+        <span class="player__count">{{ index() + 1 }} / {{ total() }}</span>
+      }
+    </header>
+
+    <ol class="steps" aria-hidden="true">
+      @for (q of set.questions; track $index) {
+        <li
+          class="steps__item"
+          [class.steps__item--current]="$index === index() && !finished()"
+          [class.steps__item--correct]="results()[$index] === true"
+          [class.steps__item--wrong]="results()[$index] === false"
+        ></li>
+      }
+    </ol>
+
+    @if (finished()) {
+      <div class="result rise-in">
+        <span class="result__icon"><app-icon name="trophy" [size]="40" /></span>
+        <p class="result__score">{{ score() }} / {{ total() }}</p>
+        <p class="result__verdict">{{ verdict() }}</p>
+        <div class="result__actions">
+          <button type="button" class="btn btn--ghost" (click)="restart()">
+            <app-icon name="rotate-ccw" [size]="18" /> Nochmal üben
+          </button>
+          @if (nextSet(); as nextSet) {
+            <a class="btn btn--primary" [routerLink]="['../', nextSet.id]">
+              Nächste Übung <app-icon name="arrow-right" [size]="18" />
+            </a>
+          } @else {
+            <a class="btn btn--primary" routerLink="../../wortschatz">
+              Zum Wortschatz <app-icon name="arrow-right" [size]="18" />
+            </a>
+          }
+        </div>
+      </div>
+    } @else if (question(); as question) {
+      <div class="player__question">
+        @switch (question.kind) {
+          @case ('choice') {
+            <app-choice-question [question]="question" (checked)="onChecked($event)" />
+          }
+          @case ('gap') {
+            <app-gap-question [question]="question" (checked)="onChecked($event)" />
+          }
+          @case ('order') {
+            <app-order-question [question]="question" (checked)="onChecked($event)" />
+          }
+        }
+      </div>
+
+      <div class="feedback-slot" aria-live="polite">
+        @if (answered()) {
+          <div class="feedback rise-in" [class.feedback--correct]="lastCorrect()" [class.feedback--wrong]="!lastCorrect()">
+            <span class="feedback__icon"><app-icon [name]="lastCorrect() ? 'check' : 'x'" [size]="22" /></span>
+            <div class="feedback__body">
+              <p class="feedback__title">{{ lastCorrect() ? 'Richtig!' : 'Leider falsch.' }}</p>
+              @if (!lastCorrect()) {
+                <p class="feedback__solution">{{ solution() }}</p>
+              }
+              @if (question.explanation) {
+                <p class="feedback__explanation">{{ question.explanation }}</p>
+              }
+            </div>
+            <button #nextButton type="button" class="btn btn--primary" (click)="next()">
+              {{ index() + 1 < total() ? 'Weiter' : 'Ergebnis' }} <app-icon name="arrow-right" [size]="18" />
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </section>
+} @else {
+  <p class="missing card">Diese Übung gibt es nicht.</p>
+}

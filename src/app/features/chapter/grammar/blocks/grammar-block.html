@@ -1,0 +1,75 @@
+@let b = block();
+@switch (b.kind) {
+  @case ('text') {
+    <p class="text"><app-rich-text [text]="b.text" /></p>
+  }
+
+  @case ('rule') {
+    <section class="rule">
+      <h3 class="rule__title">{{ b.title }}</h3>
+      <ul>
+        @for (line of b.lines; track line) {
+          <li><app-rich-text [text]="line" /></li>
+        }
+      </ul>
+    </section>
+  }
+
+  @case ('tip') {
+    <aside class="tip">
+      <app-icon name="lightbulb" [size]="22" />
+      <p><app-rich-text [text]="b.text" /></p>
+    </aside>
+  }
+
+  @case ('table') {
+    <div class="table-wrap">
+      <table>
+        @if (b.caption) {
+          <caption>{{ b.caption }}</caption>
+        }
+        <thead>
+          <tr>
+            @for (cell of b.head; track $index) {
+              <th scope="col">{{ cell }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of b.rows; track $index) {
+            <tr>
+              @for (cell of row; track $index) {
+                <td><app-rich-text [text]="cell" /></td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @case ('examples') {
+    <section class="examples">
+      @if (b.title) {
+        <h3 class="examples__title">{{ b.title }}</h3>
+      }
+      <ul>
+        @for (example of b.items; track example) {
+          <li><app-rich-text [text]="example" /></li>
+        }
+      </ul>
+    </section>
+  }
+
+  @case ('timeline') {
+    <app-timeline-block [block]="b" />
+  }
+
+  @case ('clauses') {
+    <app-clauses-block [block]="b" />
+  }
+
+  @case ('connectors') {
+    <app-connectors-block [block]="b" />
+  }
+}

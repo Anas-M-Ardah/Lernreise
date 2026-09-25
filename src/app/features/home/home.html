@@ -1,0 +1,52 @@
+<section class="hero page">
+  <p class="eyebrow rise-in">Netzwerk neu · B1.2</p>
+  <h1 class="hero__title rise-in" style="--i: 1">
+    Deine Lernreise<br />
+    <span class="hero__accent">Schritt für Schritt</span>
+  </h1>
+  <p class="hero__lead rise-in" style="--i: 2">
+    Grammatik auf einen Blick, Übungen mit sofortigem Feedback und Karteikarten für den Wortschatz – Kapitel
+    für Kapitel.
+  </p>
+</section>
+
+<section class="page" aria-labelledby="chapters-heading">
+  <h2 id="chapters-heading" class="section-title">Kapitel</h2>
+
+  <ol class="chapters">
+    @for (item of chapters(); track item.chapter.id; let i = $index) {
+      <li class="rise-in" [style.--i]="i + 3">
+        <a class="chapter card" [routerLink]="['/kapitel', item.chapter.id]">
+          <span class="chapter__number" aria-hidden="true">{{ item.chapter.number }}</span>
+          <div class="chapter__body">
+            <p class="eyebrow">Kapitel {{ item.chapter.number }}</p>
+            <h3 class="chapter__title">{{ item.chapter.title }}</h3>
+            <p class="chapter__subtitle">{{ item.chapter.subtitle }}</p>
+            <ul class="chapter__stats">
+              <li><app-icon name="book-open" [size]="16" /> {{ item.chapter.grammar.length }} Themen</li>
+              <li><app-icon name="pencil" [size]="16" /> {{ item.questions }} Aufgaben</li>
+              <li><app-icon name="layers" [size]="16" /> {{ item.words }} Wörter</li>
+            </ul>
+          </div>
+          <div class="chapter__aside">
+            <app-progress-ring [value]="item.progress" label="Wortschatz gelernt" />
+            <span class="chapter__cta">Starten <app-icon name="arrow-right" [size]="18" /></span>
+          </div>
+        </a>
+      </li>
+    }
+
+    @for (upcoming of upcoming; track upcoming.number; let i = $index) {
+      <li class="rise-in" [style.--i]="i + 4">
+        <div class="chapter chapter--locked card" aria-disabled="true">
+          <span class="chapter__number" aria-hidden="true">{{ upcoming.number }}</span>
+          <div class="chapter__body">
+            <p class="eyebrow">Kapitel {{ upcoming.number }}</p>
+            <h3 class="chapter__title">{{ upcoming.title }}</h3>
+          </div>
+          <span class="chapter__soon"><app-icon name="lock" [size]="16" /> Bald</span>
+        </div>
+      </li>
+    }
+  </ol>
+</section>

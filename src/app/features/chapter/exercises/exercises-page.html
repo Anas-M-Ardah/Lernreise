@@ -1,0 +1,25 @@
+<header class="heading">
+  <h2>Übungen</h2>
+  <p>Wähle eine Übung. Dein bestes Ergebnis wird gespeichert.</p>
+</header>
+
+<ul class="sets">
+  @for (item of sets(); track item.set.id; let i = $index) {
+    <li class="rise-in" [style.--i]="i">
+      <a class="set card" [routerLink]="item.set.id">
+        <div class="set__top">
+          <span class="set__kind"><app-icon [name]="item.kind.icon" [size]="16" /> {{ item.kind.label }}</span>
+          @if (item.best !== undefined) {
+            <app-progress-ring [value]="item.best" label="Bestes Ergebnis" />
+          }
+        </div>
+        <h3 class="set__title">{{ item.set.title }}</h3>
+        <p class="set__description">{{ item.set.description }}</p>
+        <div class="set__meta">
+          <span>{{ item.topic }}</span>
+          <span>{{ item.set.questions.length }} Aufgaben</span>
+        </div>
+      </a>
+    </li>
+  }
+</ul>

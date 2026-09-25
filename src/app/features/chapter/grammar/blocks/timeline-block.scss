@@ -1,0 +1,141 @@
+.timeline {
+  position: relative;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-5) 0 0;
+  list-style: none;
+
+  // The time axis with an arrow head.
+  &::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--space-5) + 38px);
+    left: 0;
+    right: 10px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--tense-plusquamperfekt),
+      var(--tense-praeteritum),
+      var(--tense-praesens)
+    );
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--space-5) + 33px);
+    right: 0;
+    border: 6.5px solid transparent;
+    border-left: 12px solid var(--tense-praesens);
+  }
+}
+
+.step {
+  --tense-color: var(--tense-praesens);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &[data-tense='plusquamperfekt'] {
+    --tense-color: var(--tense-plusquamperfekt);
+  }
+
+  &[data-tense='praeteritum'] {
+    --tense-color: var(--tense-praeteritum);
+  }
+
+  &[data-tense='perfekt'] {
+    --tense-color: var(--tense-perfekt);
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-fg-muted);
+  }
+
+  &__dot {
+    position: relative;
+    width: 28px;
+    aspect-ratio: 1;
+    margin: var(--space-2) 0;
+    border-radius: 50%;
+    background: var(--tense-color);
+    box-shadow:
+      0 0 0 6px var(--color-surface),
+      0 0 0 8px color-mix(in srgb, var(--tense-color) 35%, transparent);
+  }
+
+  &__tense {
+    margin-top: var(--space-2);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--tense-color);
+  }
+
+  &__example {
+    margin-top: var(--space-2);
+    font-size: 0.95rem;
+    --highlight-color: var(--tense-color);
+    --highlight-background: color-mix(in srgb, var(--tense-color) 14%, transparent);
+  }
+}
+
+@media (max-width: 640px) {
+  .timeline {
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    gap: var(--space-5);
+    padding: 0 0 0 var(--space-6);
+
+    &::before {
+      top: 0;
+      bottom: 12px;
+      left: 13px;
+      right: auto;
+      width: 3px;
+      height: auto;
+      background: linear-gradient(
+        180deg,
+        var(--tense-plusquamperfekt),
+        var(--tense-praeteritum),
+        var(--tense-praesens)
+      );
+    }
+
+    &::after {
+      top: auto;
+      bottom: 0;
+      left: 8px;
+      right: auto;
+      border: 6.5px solid transparent;
+      border-top: 12px solid var(--tense-praesens);
+    }
+  }
+
+  .step {
+    position: relative;
+    align-items: flex-start;
+    text-align: left;
+
+    &__dot {
+      position: absolute;
+      left: calc(-1 * var(--space-6));
+      top: 0;
+      width: 22px;
+      margin: 0 0 0 3px;
+    }
+
+    &__tense {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+<header class="topbar">
+  <nav class="topbar__inner page" aria-label="Hauptnavigation">
+    <a class="brand" routerLink="/">
+      <span class="brand__mark" aria-hidden="true">B1.2</span>
+      <span class="brand__name">Lernreise</span>
+    </a>
+
+    <button
+      type="button"
+      class="btn btn--ghost btn--icon"
+      (click)="themeService.toggle()"
+      [attr.aria-label]="themeService.theme() === 'dark' ? 'Helles Design aktivieren' : 'Dunkles Design aktivieren'"
+    >
+      <app-icon [name]="themeService.theme() === 'dark' ? 'sun' : 'moon'" />
+    </button>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+  <router-outlet />
+</main>
+
+<footer class="footer page">
+  <p>Netzwerk neu B1.2 · Goethe-Institut · Schritt für Schritt zum Ziel</p>
+</footer>

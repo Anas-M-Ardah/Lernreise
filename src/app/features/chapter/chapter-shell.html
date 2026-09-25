@@ -1,0 +1,41 @@
+<header class="intro page">
+  <a class="back" routerLink="/"><app-icon name="arrow-left" [size]="18" /> Alle Kapitel</a>
+
+  <div class="intro__main">
+    <span class="intro__number" aria-hidden="true">{{ chapter().number }}</span>
+    <div class="intro__text">
+      <p class="eyebrow">Kapitel {{ chapter().number }}</p>
+      <h1 class="intro__title">{{ chapter().title }}</h1>
+      <p class="intro__subtitle">{{ chapter().subtitle }}</p>
+    </div>
+  </div>
+
+  <details class="goals card">
+    <summary><app-icon name="target" [size]="18" /> Lernziele dieses Kapitels</summary>
+    <ul>
+      @for (goal of chapter().goals; track goal) {
+        <li><app-icon name="check" [size]="16" /> Sie können {{ goal }}.</li>
+      }
+    </ul>
+  </details>
+</header>
+
+<nav class="tabs page" aria-label="Bereiche des Kapitels">
+  <div class="tabs__track card">
+    @for (tab of tabs; track tab.path) {
+      <a
+        class="tabs__link"
+        [routerLink]="tab.path"
+        routerLinkActive="is-active"
+        ariaCurrentWhenActive="page"
+      >
+        <app-icon [name]="tab.icon" [size]="18" />
+        {{ tab.label }}
+      </a>
+    }
+  </div>
+</nav>
+
+<div class="page content">
+  <router-outlet />
+</div>

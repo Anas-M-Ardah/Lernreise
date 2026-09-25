@@ -1,0 +1,42 @@
+@for (group of groups(); track group.title) {
+  <section class="group card">
+    <h3 class="group__title">{{ group.title }} <span>{{ group.cards.length }}</span></h3>
+    <ul class="words">
+      @for (card of group.cards; track card.id) {
+        @let status = progress.cards()[card.id];
+        <li class="word">
+          <span
+            class="status status--{{ status ?? 'new' }}"
+            [attr.title]="status === 'known' ? 'Gelernt' : status === 'learning' ? 'Wird gelernt' : 'Neu'"
+          ></span>
+          <div class="word__de">
+            <p class="word__term">
+              @if (card.article) {
+                <span class="article article--{{ card.article }}">{{ card.article }}</span>
+              }
+              {{ card.term }}
+              @if (card.pattern) {
+                <span class="word__pattern">({{ card.pattern }})</span>
+              }
+            </p>
+            @if (grammarInfo(card); as info) {
+              <p class="word__info">{{ info }}</p>
+            }
+            @if (card.example) {
+              <p class="word__example">{{ card.example }}</p>
+            }
+          </div>
+          <div class="word__meaning">
+            <p lang="en">{{ card.english }}</p>
+            <p lang="ar" dir="rtl">{{ card.arabic }}</p>
+          </div>
+          @if (speech.supported) {
+            <button type="button" class="speak" [attr.aria-label]="'Aussprache: ' + card.term" (click)="speak(card)">
+              <app-icon name="volume-2" [size]="18" />
+            </button>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+}

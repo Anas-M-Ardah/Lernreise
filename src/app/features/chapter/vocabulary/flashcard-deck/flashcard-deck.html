@@ -1,0 +1,82 @@
+<div class="deck">
+  <div class="deck__bar">
+    <div class="meter" role="progressbar" aria-label="Fortschritt im Stapel" [attr.aria-valuenow]="position()" aria-valuemin="0" [attr.aria-valuemax]="queue().length">
+      <span class="meter__fill" [style.transform]="'scaleX(' + progressRatio() + ')'"></span>
+    </div>
+    <span class="deck__count">{{ finished() ? queue().length : position() + 1 }} / {{ queue().length }}</span>
+    <button type="button" class="btn btn--ghost btn--icon" aria-label="Karten mischen" title="Mischen" (click)="shuffleDeck()">
+      <app-icon name="shuffle" [size]="18" />
+    </button>
+  </div>
+
+  @if (current(); as card) {
+    <div class="stage">
+      <button
+        type="button"
+        class="flashcard"
+        [class.is-flipped]="flipped()"
+        [attr.aria-label]="flipped() ? 'Karte umdrehen: Wort anzeigen' : 'Karte umdrehen: Bedeutung anzeigen'"
+        (click)="flip()"
+      >
+        <span class="face face--front" [attr.aria-hidden]="flipped()">
+          @if (card.pattern) {
+            <span class="pattern">{{ card.pattern }}</span>
+          }
+          <span class="word">
+            @if (card.article) {
+              <span class="article article--{{ card.article }}">{{ card.article }}</span>
+            }
+            {{ card.term }}
+          </span>
+          @if (grammarInfo(card); as info) {
+            <span class="info">{{ info }}</span>
+          }
+          <span class="face__hint">Tippen oder Leertaste zum Umdrehen</span>
+        </span>
+
+        <span class="face face--back" [attr.aria-hidden]="!flipped()">
+          <span class="meaning" lang="en">{{ card.english }}</span>
+          <span class="meaning meaning--ar" lang="ar" dir="rtl">{{ card.arabic }}</span>
+          @if (card.example) {
+            <span class="example">„{{ card.example }}“</span>
+          }
+        </span>
+      </button>
+
+      @if (speech.supported) {
+        <button type="button" class="speak btn btn--ghost btn--icon" aria-label="Aussprache anhören" (click)="speak(card)">
+          <app-icon name="volume-2" [size]="20" />
+        </button>
+      }
+    </div>
+
+    <div class="actions">
+      <button type="button" class="action action--again" (click)="markAgain()">
+        <app-icon name="rotate-ccw" [size]="20" />
+        <span>Nochmal</span>
+        <kbd>1</kbd>
+      </button>
+      <button type="button" class="action action--known" (click)="markKnown()">
+        <app-icon name="check" [size]="20" />
+        <span>Gewusst</span>
+        <kbd>2</kbd>
+      </button>
+    </div>
+  } @else {
+    <div class="done card rise-in">
+      <span class="done__icon"><app-icon name="trophy" [size]="40" /></span>
+      <h3>Stapel geschafft!</h3>
+      <p>
+        {{ knownInSession() }} Wörter gewusst · {{ queue().length - cards().length }} Wiederholungen
+      </p>
+      <div class="done__actions">
+        <button type="button" class="btn btn--ghost" (click)="shuffleDeck()">
+          <app-icon name="shuffle" [size]="18" /> Gemischt wiederholen
+        </button>
+        <button type="button" class="btn btn--primary" (click)="restart()">
+          <app-icon name="rotate-ccw" [size]="18" /> Nochmal von vorn
+        </button>
+      </div>
+    </div>
+  }
+</div>

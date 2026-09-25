@@ -1,0 +1,50 @@
+<div class="layout">
+  <nav class="toc" aria-label="Grammatikthemen">
+    <p class="eyebrow">Themen</p>
+    <ol>
+      @for (item of topics(); track item.topic.id; let i = $index) {
+        <li>
+          <a routerLink="." [fragment]="item.topic.id">
+            <span class="toc__index">{{ i + 1 }}</span>
+            {{ item.topic.title }}
+          </a>
+        </li>
+      }
+    </ol>
+  </nav>
+
+  <div class="topics">
+    @for (item of topics(); track item.topic.id; let i = $index) {
+      <article class="topic card rise-in" [id]="item.topic.id" [style.--i]="i">
+        <header class="topic__header">
+          <span class="topic__index" aria-hidden="true">{{ i + 1 }}</span>
+          <div>
+            <h2 class="topic__title">{{ item.topic.title }}</h2>
+            <p class="topic__summary">{{ item.topic.summary }}</p>
+          </div>
+        </header>
+
+        <div class="topic__blocks">
+          @for (block of item.topic.blocks; track $index) {
+            <app-grammar-block [block]="block" />
+          }
+        </div>
+
+        @if (item.exercises.length) {
+          <footer class="topic__practice">
+            <p><app-icon name="sparkles" [size]="18" /> Jetzt üben:</p>
+            <ul>
+              @for (set of item.exercises; track set.id) {
+                <li>
+                  <a class="btn btn--ghost" [routerLink]="['../uebungen', set.id]">
+                    {{ set.title }} <app-icon name="arrow-right" [size]="16" />
+                  </a>
+                </li>
+              }
+            </ul>
+          </footer>
+        }
+      </article>
+    }
+  </div>
+</div>
