@@ -11,7 +11,9 @@ const ACTIVATABLE_TAGS = new Set(['BUTTON', 'A']);
 
 /**
  * A study session over a set of cards. "Nochmal" puts the card back at the
- * end of the queue, so it comes up again before the session ends.
+ * end of the queue, so it comes up again; the session ends once every card
+ * was marked "Gewusst". Progress therefore counts known cards against the
+ * fixed deck size — the queue length grows with repeats and isn't shown.
  */
 @Component({
   selector: 'app-flashcard-deck',
@@ -40,10 +42,18 @@ export class FlashcardDeck {
     source: this.cards,
     computation: () => 0,
   });
+  /** Cards marked "Nochmal" that haven't been marked "Gewusst" yet. */
+  private readonly toReview = linkedSignal<readonly VocabCard[], ReadonlySet<string>>({
+    source: this.cards,
+    computation: () => new Set(),
+  });
 
+  protected readonly total = computed(() => this.cards().length);
   protected readonly current = computed<VocabCard | undefined>(() => this.queue()[this.position()]);
   protected readonly finished = computed(() => this.position() >= this.queue().length);
-  protected readonly progressRatio = computed(() => Math.min(1, this.position() / this.queue().length));
+  protected readonly progressRatio = computed(() => this.knownInSession() / this.total());
+  protected readonly reviewCount = computed(() => this.toReview().size);
+  protected readonly repeatCount = computed(() => this.queue().length - this.total());
   protected readonly grammarInfo = grammarInfo;
 
   protected flip(): void {
@@ -55,6 +65,7 @@ export class FlashcardDeck {
     if (!card) return;
     this.progress.setCardStatus(card.id, 'known');
     this.knownInSession.update((count) => count + 1);
+    this.toReview.update((ids) => new Set([...ids].filter((id) => id !== card.id)));
     this.advance();
   }
 
@@ -63,6 +74,7 @@ export class FlashcardDeck {
     if (!card) return;
     this.progress.setCardStatus(card.id, 'learning');
     this.queue.update((queue) => [...queue, card]);
+    this.toReview.update((ids) => new Set(ids).add(card.id));
     this.advance();
   }
 
@@ -109,6 +121,7 @@ export class FlashcardDeck {
     this.queue.set(cards);
     this.position.set(0);
     this.knownInSession.set(0);
+    this.toReview.set(new Set());
     this.flipped.set(false);
   }
 }

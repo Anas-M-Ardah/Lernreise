@@ -1,9 +1,14 @@
 <div class="deck">
   <div class="deck__bar">
-    <div class="meter" role="progressbar" aria-label="Fortschritt im Stapel" [attr.aria-valuenow]="position()" aria-valuemin="0" [attr.aria-valuemax]="queue().length">
+    <div class="meter" role="progressbar" aria-label="Gewusste Wörter" [attr.aria-valuenow]="knownInSession()" aria-valuemin="0" [attr.aria-valuemax]="total()">
       <span class="meter__fill" [style.transform]="'scaleX(' + progressRatio() + ')'"></span>
     </div>
-    <span class="deck__count">{{ finished() ? queue().length : position() + 1 }} / {{ queue().length }}</span>
+    <span class="deck__count"><strong>{{ knownInSession() }}</strong> / {{ total() }} gewusst</span>
+    @if (reviewCount() > 0) {
+      <span class="deck__review" title="Diese Wörter kommen noch einmal">
+        <app-icon name="rotate-ccw" [size]="14" /> {{ reviewCount() }}
+      </span>
+    }
     <button type="button" class="btn btn--ghost btn--icon" aria-label="Karten mischen" title="Mischen" (click)="shuffleDeck()">
       <app-icon name="shuffle" [size]="18" />
     </button>
@@ -67,7 +72,7 @@
       <span class="done__icon"><app-icon name="trophy" [size]="40" /></span>
       <h3>Stapel geschafft!</h3>
       <p>
-        {{ knownInSession() }} Wörter gewusst · {{ queue().length - cards().length }} Wiederholungen
+        {{ knownInSession() }} Wörter gewusst · {{ repeatCount() }} Wiederholungen
       </p>
       <div class="done__actions">
         <button type="button" class="btn btn--ghost" (click)="shuffleDeck()">
