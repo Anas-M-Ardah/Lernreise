@@ -1,0 +1,18 @@
+{
+  "name": "B1.2 Lernreise",
+  "short_name": "Lernreise",
+  "description": "Grammatik, Übungen und Wortschatz-Karteikarten für Netzwerk neu B1.2",
+  "lang": "de",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./",
+  "start_url": "./",
+  "theme_color": "#4f46e5",
+  "background_color": "#eef2ff",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

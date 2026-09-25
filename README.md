@@ -13,6 +13,10 @@ npm run build
 Every push to `main` builds and publishes the site to GitHub Pages via
 `.github/workflows/deploy.yml`: https://anas-m-ardah.github.io/Lernreise/
 
+The site is an installable PWA (works offline). On a phone: open the link, then
+**Share → Add to Home Screen** (iOS Safari) or **⋮ → Install app** (Android Chrome).
+App icons are generated from `public/favicon.svg` and `public/icons/icon-maskable.svg`.
+
 ## Structure
 
 ```

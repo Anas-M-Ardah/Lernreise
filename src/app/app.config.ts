@@ -1,4 +1,9 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  isDevMode,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -6,6 +11,7 @@ import {
   withRouterConfig,
   withViewTransitions,
 } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -19,5 +25,10 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
       withViewTransitions({ skipInitialTransition: true }),
     ),
+    // Makes the app installable and usable offline (production builds only).
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
