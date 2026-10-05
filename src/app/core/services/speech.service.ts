@@ -1,14 +1,17 @@
 import { DOCUMENT, DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
+import { PRONUNCIATION_AUDIO } from '../../data/pronunciation-audio';
 
-/** Uses an explicitly selected German voice; never falls back to another language. */
+/** Bundled German recordings work without installed voices or a live TTS service. */
 @Injectable({ providedIn: 'root' })
 export class SpeechService {
-  private readonly window = inject(DOCUMENT).defaultView;
+  private readonly document = inject(DOCUMENT);
+  private readonly window = this.document.defaultView;
   private readonly synth = this.window?.speechSynthesis;
+  private audio: HTMLAudioElement | undefined;
   private pendingText: string | undefined;
   private timer: number | undefined;
   private request = 0;
-  readonly supported = !!this.synth;
+  readonly supported = !!this.window?.Audio || !!this.synth;
   readonly voices = signal<SpeechSynthesisVoice[]>([]);
   readonly preferredVoice = signal('');
   readonly rate = signal(0.85);
@@ -33,6 +36,7 @@ export class SpeechService {
       this.synth?.removeEventListener('voiceschanged', refresh);
       this.clearPending();
       this.request++;
+      this.audio?.pause();
       this.synth?.cancel();
     });
   }
@@ -52,11 +56,43 @@ export class SpeechService {
   speak(text: string): void {
     this.clearPending();
     const request = ++this.request;
+    this.audio?.pause();
+    this.audio = undefined;
+    this.synth?.cancel();
+    const normalized = text.replace(/\|/g, '').trim();
+    const recording = PRONUNCIATION_AUDIO[normalized];
+    if (!this.preferredVoice() && recording && this.window?.Audio) {
+      this.message.set('');
+      const audio = new this.window.Audio(new URL(recording, this.document.baseURI).href);
+      this.audio = audio;
+      audio.playbackRate = this.rate();
+      audio.onplaying = () => {
+        if (request === this.request) this.message.set('Deutsche Aussprache wird abgespielt …');
+      };
+      audio.onended = () => {
+        if (request === this.request) this.message.set('');
+      };
+      let failed = false;
+      const onFailure = () => {
+        if (request !== this.request || failed) return;
+        failed = true;
+        audio.pause();
+        this.audio = undefined;
+        if (this.selectedVoice()) this.speakNative(normalized, request);
+        else this.message.set('Die deutsche Aufnahme konnte nicht geladen werden. Bitte lade die Seite neu und prüfe deine Verbindung.');
+      };
+      audio.onerror = onFailure;
+      void audio.play().catch(onFailure);
+      return;
+    }
+    this.speakNative(normalized, request);
+  }
+
+  private speakNative(text: string, request: number): void {
     if (!this.synth || !this.window) {
       this.message.set('Dieser Browser unterstützt keine Sprachausgabe.');
       return;
     }
-    this.synth.cancel();
     const voice = this.selectedVoice();
     if (!voice) {
       this.pendingText = text;
@@ -68,7 +104,7 @@ export class SpeechService {
       return;
     }
     this.message.set('');
-    const utterance = new this.window.SpeechSynthesisUtterance(text.replace(/\|/g, '').trim());
+    const utterance = new this.window.SpeechSynthesisUtterance(text);
     utterance.voice = voice;
     utterance.lang = voice.lang.replace('_', '-');
     utterance.rate = this.rate();

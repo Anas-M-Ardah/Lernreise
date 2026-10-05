@@ -3,6 +3,14 @@
   "index": "/index.html",
   "assetGroups": [
     {
+      "name": "pronunciation",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/audio/de/*.mp3"]
+      }
+    },
+    {
       "name": "app",
       "installMode": "prefetch",
       "resources": {

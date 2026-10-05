@@ -7,6 +7,7 @@
     "build": "ng build",
     "check:content": "node scripts/validate-content.mjs",
     "check:speech": "node scripts/check-speech.mjs",
+    "check:audio": "node scripts/check-audio.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

@@ -33,6 +33,9 @@ jobs:
       - name: Check German speech
         run: npm run check:speech
 
+      - name: Check bundled German recordings
+        run: npm run check:audio
+
       - name: Build
         run: npx ng build --base-href "/${{ github.event.repository.name }}/"
 

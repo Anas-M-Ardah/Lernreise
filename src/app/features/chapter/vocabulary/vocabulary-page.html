@@ -18,11 +18,10 @@
   <summary>Aussprache · Deutsch</summary>
   <div class="pronunciation__controls">
     <label>Stimme
-      <select #voice [value]="speech.selectedVoice()?.voiceURI ?? ''" (change)="speech.preferredVoice.set(voice.value)">
+      <select #voice [value]="speech.preferredVoice()" (change)="speech.preferredVoice.set(voice.value)">
+        <option value="">Deutsche Aufnahme (Katja)</option>
         @for (item of speech.voices(); track item.voiceURI) {
           <option [value]="item.voiceURI">{{ item.name }} ({{ item.lang }})</option>
-        } @empty {
-          <option value="">Keine deutsche Stimme verfügbar</option>
         }
       </select>
     </label>

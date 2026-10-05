@@ -41,7 +41,7 @@ function nonempty(value, label) {
   assert(value.trim().length > 0, `${label} must not be empty`);
 }
 
-const { CHAPTERS, UPCOMING_CHAPTERS } = load('src/app/data/chapters.ts');
+export const { CHAPTERS, UPCOMING_CHAPTERS } = load('src/app/data/chapters.ts');
 const { slugify } = load('src/app/core/utils/text.ts');
 unique([...CHAPTERS, ...UPCOMING_CHAPTERS].map((chapter) => chapter.number), 'chapter numbers');
 unique(CHAPTERS.map((chapter) => chapter.id), 'chapter IDs');

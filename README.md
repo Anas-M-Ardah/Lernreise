@@ -87,6 +87,25 @@ to verify the Angular production build.
 
 ## German pronunciation
 
-Vocabulary playback explicitly selects a German voice, prefers de-DE and enhanced voices, and waits for asynchronously loaded voices. Open **Aussprache · Deutsch** to choose the voice and learning speed or test a sample. If no German voice is available, enable German speech in your device settings or try another browser; the app never substitutes an English voice. Voice quality and availability depend on the browser/device.
+Vocabulary playback defaults to bundled German recordings generated with the
+`de-DE-KatjaNeural` voice. All 286 vocabulary cards across Units 7–9 are covered
+(285 unique spoken forms plus a voice-test sample; 3.23 MB of MP3 audio). No
+installed German voice or live external speech service is needed for playback.
+The service worker downloads these recordings for offline use during installation
+and updates; let that download finish before studying offline.
 
-Run `npm run check:speech` to verify German-only selection, delayed loading, speed controls, timeout/error handling, and cleanup.
+Open **Aussprache · Deutsch** to adjust the learning speed, test a sample, or
+choose an installed German voice. Browser speech remains a fallback and never
+substitutes a voice in another language. Recordings preserve pitch when slowed
+using the browser's standard audio playback behavior.
+
+Run `npm run check:speech` to verify recording playback, base paths, speed,
+cancellation, German-only fallback and error handling. Run `npm run check:audio`
+to verify MP3 files and coverage of every vocabulary card. Both checks run in CI.
+
+To regenerate after editing vocabulary, run `node scripts/export-audio.mjs`,
+then install `edge-tts==7.2.8` and run `python scripts/generate-audio.py`.
+Generation sends German vocabulary text to Microsoft Edge's online speech
+service through [edge-tts](https://github.com/rany2/edge-tts); it runs only during
+asset generation, with the repository owner's authorization. It is not used at
+runtime. Existing valid recordings are reused.
