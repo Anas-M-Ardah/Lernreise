@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, signal, un
 import { Chapter } from '../../../core/models';
 import { ChapterService } from '../../../core/services/chapter.service';
 import { ProgressService } from '../../../core/services/progress.service';
+import { SpeechService } from '../../../core/services/speech.service';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { FlashcardDeck } from './flashcard-deck/flashcard-deck';
 import { WordList } from './word-list/word-list';
@@ -20,6 +21,7 @@ const ALL = 'all';
 export class VocabularyPage {
   private readonly chapterService = inject(ChapterService);
   private readonly progress = inject(ProgressService);
+  protected readonly speech = inject(SpeechService);
 
   readonly chapter = input.required<Chapter>();
 

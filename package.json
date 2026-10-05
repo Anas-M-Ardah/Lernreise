@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "check:content": "node scripts/validate-content.mjs",
+    "check:speech": "node scripts/check-speech.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

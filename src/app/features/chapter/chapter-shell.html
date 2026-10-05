@@ -2,12 +2,14 @@
   <a class="back" routerLink="/"><app-icon name="arrow-left" [size]="18" /> Alle Kapitel</a>
 
   <div class="intro__main">
-    <span class="intro__number" aria-hidden="true">{{ chapter().number }}</span>
     <div class="intro__text">
-      <p class="eyebrow">Kapitel {{ chapter().number }}</p>
+      <div class="intro__labels"><span class="intro__number">Kapitel {{ chapter().number }}</span><span class="intro__theme"><app-icon [name]="theme().icon" [size]="16" /> {{ theme().label }}</span></div>
       <h1 class="intro__title">{{ chapter().title }}</h1>
       <p class="intro__subtitle">{{ chapter().subtitle }}</p>
+      <p class="intro__note">{{ theme().note }}</p>
+      <ul class="intro__stats"><li><app-icon name="book-open" [size]="16" /> {{ chapter().grammar.length }} Themen</li><li><app-icon name="pencil" [size]="16" /> {{ questionCount() }} Aufgaben</li><li><app-icon name="layers" [size]="16" /> {{ wordCount() }} Wörter</li></ul>
     </div>
+    <div class="intro__art"><app-chapter-art [unit]="chapter().number" /></div>
   </div>
 
   <details class="goals card">

@@ -1,52 +1,56 @@
 <section class="hero page">
-  <p class="eyebrow rise-in">Netzwerk neu · B1.2</p>
-  <h1 class="hero__title rise-in" style="--i: 1">
-    Deine Lernreise<br />
-    <span class="hero__accent">Schritt für Schritt</span>
-  </h1>
-  <p class="hero__lead rise-in" style="--i: 2">
-    Grammatik auf einen Blick, Übungen mit sofortigem Feedback und Karteikarten für den Wortschatz – Kapitel
-    für Kapitel.
-  </p>
+  <div class="hero__copy rise-in">
+    <p class="eyebrow">Dein Lernatelier · Netzwerk neu B1.2</p>
+    <h1 class="hero__title">Kleine Schritte.<br /><span>Neue Perspektiven.</span></h1>
+    <p class="hero__lead">Menschen, Musik und Kunst. Entdecke dein nächstes Kapitel – und mache Deutsch zu deiner Sprache.</p>
+    <a class="btn btn--primary hero__action" href="#chapters-heading">Kapitel entdecken <app-icon name="arrow-right" [size]="18" /></a>
+    <div class="hero__stats" aria-label="Deine Lernmaterialien">
+      <span><strong>{{ totals.chapters }}</strong> Kapitel</span>
+      <span><strong>{{ totals.questions }}</strong> Aufgaben</span>
+      <span><strong>{{ totals.words }}</strong> Wörter</span>
+    </div>
+  </div>
+  <app-chapter-gallery class="hero__gallery rise-in" style="--i: 1" />
 </section>
 
 <section class="page" aria-labelledby="chapters-heading">
-  <h2 id="chapters-heading" class="section-title">Kapitel</h2>
-
+  <div class="section-heading">
+    <div><p class="eyebrow">Wähle deine Lernwelt</p><h2 id="chapters-heading">Deine Kapitel</h2></div>
+    <p>Verstehen. Ausprobieren. Behalten.</p>
+  </div>
   <ol class="chapters">
     @for (item of chapters(); track item.chapter.id; let i = $index) {
-      <li class="rise-in" [style.--i]="i + 3">
-        <a class="chapter card" [routerLink]="['/kapitel', item.chapter.id]">
-          <span class="chapter__number" aria-hidden="true">{{ item.chapter.number }}</span>
+      <li class="rise-in" [style.--i]="i + 2">
+        <a class="chapter card" [attr.data-unit]="item.chapter.number" [routerLink]="['/kapitel', item.chapter.id]">
+          <div class="chapter__cover">
+            <div class="chapter__cover-top"><span class="chapter__label"><app-icon [name]="item.theme.icon" [size]="15" /> {{ item.theme.label }}</span><span class="chapter__number">0{{ item.chapter.number }}</span></div>
+            <app-chapter-art [unit]="item.chapter.number" />
+          </div>
           <div class="chapter__body">
             <p class="eyebrow">Kapitel {{ item.chapter.number }}</p>
             <h3 class="chapter__title">{{ item.chapter.title }}</h3>
             <p class="chapter__subtitle">{{ item.chapter.subtitle }}</p>
             <ul class="chapter__stats">
-              <li><app-icon name="book-open" [size]="16" /> {{ item.chapter.grammar.length }} Themen</li>
-              <li><app-icon name="pencil" [size]="16" /> {{ item.questions }} Aufgaben</li>
-              <li><app-icon name="layers" [size]="16" /> {{ item.words }} Wörter</li>
+              <li><app-icon name="book-open" [size]="15" /> {{ item.chapter.grammar.length }} Themen</li>
+              <li><app-icon name="pencil" [size]="15" /> {{ item.questions }} Aufgaben</li>
+              <li><app-icon name="layers" [size]="15" /> {{ item.words }} Wörter</li>
             </ul>
           </div>
-          <div class="chapter__aside">
-            <app-progress-ring [value]="item.progress" label="Wortschatz gelernt" />
-            <span class="chapter__cta">Starten <app-icon name="arrow-right" [size]="18" /></span>
+          <div class="chapter__footer">
+            <div class="chapter__progress"><app-progress-ring [value]="item.progress" label="Wortschatz gelernt" /><span>Dein Fortschritt</span></div>
+            <span class="chapter__cta">Loslegen <app-icon name="arrow-right" [size]="18" /></span>
           </div>
         </a>
       </li>
     }
+  </ol>
+</section>
 
-    @for (upcoming of upcoming; track upcoming.number; let i = $index) {
-      <li class="rise-in" [style.--i]="i + 4">
-        <div class="chapter chapter--locked card" aria-disabled="true">
-          <span class="chapter__number" aria-hidden="true">{{ upcoming.number }}</span>
-          <div class="chapter__body">
-            <p class="eyebrow">Kapitel {{ upcoming.number }}</p>
-            <h3 class="chapter__title">{{ upcoming.title }}</h3>
-          </div>
-          <span class="chapter__soon"><app-icon name="lock" [size]="16" /> Bald</span>
-        </div>
-      </li>
+<section class="roadmap page" aria-labelledby="roadmap-heading">
+  <div class="section-heading"><div><p class="eyebrow">Die Reise geht weiter</p><h2 id="roadmap-heading">Demnächst im Lernatelier</h2></div></div>
+  <ol class="upcoming">
+    @for (chapter of upcoming; track chapter.number) {
+      <li class="upcoming__item"><span class="upcoming__number">{{ chapter.number }}</span><div><p>Kapitel {{ chapter.number }}</p><h3>{{ chapter.title }}</h3></div><span class="upcoming__soon"><app-icon name="lock" [size]="14" /> Bald</span></li>
     }
   </ol>
 </section>

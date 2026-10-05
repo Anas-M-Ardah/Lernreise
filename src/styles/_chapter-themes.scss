@@ -1,0 +1,84 @@
+// Chapter accents are separate from article, tense and answer-feedback colors.
+[data-unit='7'] {
+  --unit-accent: #a04450;
+  --unit-strong: #823340;
+  --unit-soft: #f7e5e2;
+  --unit-stage: #f0d8d1;
+  --unit-ink: #65313c;
+  --unit-pop: #e9b36e;
+  --unit-bg: #fbf5f3;
+  --unit-border: #ecd7d3;
+}
+
+[data-unit='8'] {
+  --unit-accent: #16746b;
+  --unit-strong: #105b54;
+  --unit-soft: #ddf0e8;
+  --unit-stage: #cce6db;
+  --unit-ink: #174e46;
+  --unit-pop: #eac57b;
+  --unit-bg: #f2f8f4;
+  --unit-border: #cee4da;
+}
+
+[data-unit='9'] {
+  --unit-accent: #7052a3;
+  --unit-strong: #593e88;
+  --unit-soft: #eee5f7;
+  --unit-stage: #e0d4ef;
+  --unit-ink: #4d356e;
+  --unit-pop: #edae73;
+  --unit-bg: #f8f5fb;
+  --unit-border: #e0d5ee;
+}
+
+:root[data-theme='dark'][data-unit='7'], [data-theme='dark'] [data-unit='7'] {
+  --unit-accent: #f1a4ac;
+  --unit-strong: #ffc2c8;
+  --unit-soft: #40282e;
+  --unit-stage: #4a3037;
+  --unit-ink: #f5c7cc;
+  --unit-pop: #c99b62;
+  --unit-bg: #211a1d;
+  --unit-border: #53383f;
+}
+
+:root[data-theme='dark'][data-unit='8'], [data-theme='dark'] [data-unit='8'] {
+  --unit-accent: #7cd6ba;
+  --unit-strong: #a6e9d2;
+  --unit-soft: #203d35;
+  --unit-stage: #284b40;
+  --unit-ink: #b0e7d3;
+  --unit-pop: #d3b071;
+  --unit-bg: #17221e;
+  --unit-border: #345348;
+}
+
+:root[data-theme='dark'][data-unit='9'], [data-theme='dark'] [data-unit='9'] {
+  --unit-accent: #c7aff1;
+  --unit-strong: #dfccff;
+  --unit-soft: #352a48;
+  --unit-stage: #443359;
+  --unit-ink: #dfd0f6;
+  --unit-pop: #dfa878;
+  --unit-bg: #201c28;
+  --unit-border: #4d3d65;
+}
+
+:root:is([data-unit='7'], [data-unit='8'], [data-unit='9']),
+[data-unit='7'], [data-unit='8'], [data-unit='9'] {
+  --color-primary: var(--unit-accent);
+  --color-primary-strong: var(--unit-strong);
+  --color-primary-soft: var(--unit-soft);
+  --color-surface-2: var(--unit-soft);
+  --color-border: var(--unit-border);
+  --highlight-bg: var(--unit-soft);
+  --highlight-fg: var(--unit-ink);
+  --shadow-button: 0 4px 12px -6px var(--unit-accent);
+}
+
+:root:is([data-unit='7'], [data-unit='8'], [data-unit='9']) {
+  --color-bg: var(--unit-bg);
+  --color-bg-glow-1: color-mix(in srgb, var(--unit-stage) 45%, transparent);
+  --color-bg-glow-2: transparent;
+}

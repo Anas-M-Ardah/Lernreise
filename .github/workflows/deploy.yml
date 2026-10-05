@@ -27,6 +27,12 @@ jobs:
 
       - run: npm ci
 
+      - name: Check study content
+        run: npm run check:content
+
+      - name: Check German speech
+        run: npm run check:speech
+
       - name: Build
         run: npx ng build --base-href "/${{ github.event.repository.name }}/"
 

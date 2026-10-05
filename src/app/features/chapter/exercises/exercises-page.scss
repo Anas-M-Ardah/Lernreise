@@ -14,7 +14,7 @@
 
 .sets {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
   gap: var(--space-4);
   margin: 0;
   padding: 0;

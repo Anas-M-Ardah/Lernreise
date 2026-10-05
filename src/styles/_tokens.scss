@@ -1,4 +1,4 @@
-// Design tokens — "learning indigo + progress green" on soft clay surfaces.
+// A quiet paper-like foundation with chapter-specific accents.
 // Tense and article colours follow the colour coding used in class.
 
 :root {
@@ -7,18 +7,18 @@
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-arabic: 'Noto Sans Arabic', 'Segoe UI', sans-serif;
 
-  --color-bg: #eef2ff;
-  --color-bg-glow-1: rgb(129 140 248 / 0.35);
-  --color-bg-glow-2: rgb(34 197 94 / 0.18);
+  --color-bg: #f7f6f2;
+  --color-bg-glow-1: rgb(216 210 233 / 0.2);
+  --color-bg-glow-2: rgb(207 228 216 / 0.16);
   --color-surface: #ffffff;
-  --color-surface-2: #f5f7ff;
-  --color-fg: #1e1b4b;
-  --color-fg-muted: #4b5563;
-  --color-border: #dbe1fe;
+  --color-surface-2: #f1f0eb;
+  --color-fg: #292d3e;
+  --color-fg-muted: #606574;
+  --color-border: #e3e2dc;
 
-  --color-primary: #4f46e5;
-  --color-primary-strong: #4338ca;
-  --color-primary-soft: #e0e7ff;
+  --color-primary: #53517c;
+  --color-primary-strong: #3f3d63;
+  --color-primary-soft: #eae8f2;
   --color-on-primary: #ffffff;
 
   --color-success: #15803d;
@@ -50,15 +50,9 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  --shadow-clay:
-    inset 0 1px 0 rgb(255 255 255 / 0.9),
-    0 1px 2px rgb(30 27 75 / 0.06),
-    0 12px 32px -16px rgb(49 46 129 / 0.28);
-  --shadow-raised:
-    inset 0 1px 0 rgb(255 255 255 / 0.9),
-    0 2px 4px rgb(30 27 75 / 0.08),
-    0 20px 40px -18px rgb(49 46 129 / 0.4);
-  --shadow-button: inset 0 -3px 0 rgb(0 0 0 / 0.18), 0 6px 16px -8px rgb(79 70 229 / 0.7);
+  --shadow-clay: 0 3px 16px -8px rgb(41 45 62 / 0.12);
+  --shadow-raised: 0 14px 32px -16px rgb(41 45 62 / 0.25);
+  --shadow-button: 0 4px 12px -6px rgb(83 81 124 / 0.5);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -81,14 +75,14 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
 
-  --color-bg: #0f0e24;
-  --color-bg-glow-1: rgb(99 102 241 / 0.22);
-  --color-bg-glow-2: rgb(34 197 94 / 0.1);
-  --color-surface: #1a1936;
-  --color-surface-2: #22214a;
-  --color-fg: #eef0ff;
-  --color-fg-muted: #b4b8d8;
-  --color-border: #34336a;
+  --color-bg: #191b23;
+  --color-bg-glow-1: rgb(112 102 146 / 0.12);
+  --color-bg-glow-2: rgb(87 132 111 / 0.08);
+  --color-surface: #232630;
+  --color-surface-2: #2c2e3c;
+  --color-fg: #f0eff5;
+  --color-fg-muted: #b9bac9;
+  --color-border: #3d3f4f;
 
   --color-primary: #818cf8;
   --color-primary-strong: #a5b4fc;

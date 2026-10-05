@@ -14,6 +14,30 @@
   </div>
 </header>
 
+<details class="pronunciation card">
+  <summary>Aussprache · Deutsch</summary>
+  <div class="pronunciation__controls">
+    <label>Stimme
+      <select #voice [value]="speech.selectedVoice()?.voiceURI ?? ''" (change)="speech.preferredVoice.set(voice.value)">
+        @for (item of speech.voices(); track item.voiceURI) {
+          <option [value]="item.voiceURI">{{ item.name }} ({{ item.lang }})</option>
+        } @empty {
+          <option value="">Keine deutsche Stimme verfügbar</option>
+        }
+      </select>
+    </label>
+    <label>Tempo
+      <select #speed [value]="speech.rate()" (change)="speech.rate.set(+speed.value)">
+        <option value="0.7">Langsam</option>
+        <option value="0.85">Zum Lernen</option>
+        <option value="1">Normal</option>
+      </select>
+    </label>
+    <button type="button" class="chip" (click)="speech.speak('Guten Tag! Ich lerne Deutsch. Übung macht den Meister.')">Stimme testen</button>
+  </div>
+</details>
+<p class="pronunciation__message" role="status">{{ speech.message() }}</p>
+
 <div class="filters">
   <div class="chips" role="group" aria-label="Kategorie">
     <button type="button" class="chip" [class.is-active]="category() === all" [attr.aria-pressed]="category() === all" (click)="category.set(all)">

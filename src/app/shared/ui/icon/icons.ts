@@ -1,5 +1,8 @@
 /** SVG path data from the Lucide icon set (ISC license), 24×24 stroke icons. */
 export const ICONS = {
+  heart: ['M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z'],
+  music: ['M9 18V5l12-2v13', 'M9 18a3 3 0 1 1-3-3c1.7 0 3 1.3 3 3Z', 'M21 16a3 3 0 1 1-3-3c1.7 0 3 1.3 3 3Z'],
+  palette: ['M12 3a9 9 0 1 0 0 18h1.5a2.5 2.5 0 0 0 0-5H13a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3a5 5 0 0 0 5-5c0-3.3-4-6-9-6Z', 'M7 10h.01', 'M9 6h.01', 'M14 6h.01', 'M17 9h.01'],
   'arrow-left': ['m12 19-7-7 7-7', 'M19 12H5'],
   'arrow-right': ['M5 12h14', 'm12 5 7 7-7 7'],
   'book-open': [
