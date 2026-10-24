@@ -15,8 +15,6 @@ export const vocabulary: readonly VocabCategory[] = [
       { article: 'die', term: 'Mitbestimmung', plural: 'Sg.', english: 'co-determination, having a say', arabic: 'المشاركة في القرار' },
       { article: 'die', term: 'Pünktlichkeit', plural: 'Sg.', english: 'punctuality', arabic: 'الالتزام بالمواعيد' },
       { article: 'die', term: 'Zurückhaltung', plural: 'Sg.', english: 'restraint, reserve', arabic: 'تحفظ' },
-      { article: 'die', term: 'Minderheit', plural: '-en', english: 'minority', arabic: 'أقلية' },
-      { article: 'der', term: 'Humor', plural: 'Sg.', english: 'humour', arabic: 'روح الدعابة' },
     ],
   },
   {
@@ -37,9 +35,6 @@ export const vocabulary: readonly VocabCategory[] = [
       { term: 'spenden', example: 'Firmen spenden Lebensmittel.', english: 'to donate', arabic: 'يتبرع' },
       { term: 'verteilen', english: 'to distribute', arabic: 'يوزّع' },
       { term: 'tätig sein', pattern: 'als / bei', english: 'to work, to be active', arabic: 'يعمل؛ يكون ناشطًا' },
-      { term: 'Anspruch haben', pattern: 'auf + A', example: 'Anspruch auf Urlaub haben', english: 'to be entitled to', arabic: 'له الحق في' },
-      { term: 'eine Aufgabe bewältigen', english: 'to cope with a task', arabic: 'ينجز مهمة صعبة' },
-      { term: 'eine Funktion erfüllen', english: 'to fulfil a function', arabic: 'يؤدي وظيفة' },
     ],
   },
   {
@@ -52,7 +47,6 @@ export const vocabulary: readonly VocabCategory[] = [
       { article: 'die', term: 'Müllabfuhr', plural: 'Sg.', english: 'refuse collection', arabic: 'خدمة جمع النفايات' },
       { article: 'die', term: 'Regierung', plural: '-en', english: 'government', arabic: 'حكومة' },
       { article: 'der', term: 'Bürgermeister', plural: '-', english: 'mayor', arabic: 'رئيس البلدية' },
-      { article: 'die', term: 'Ministerin', plural: '-nen', english: 'minister (female)', arabic: 'وزيرة' },
       { article: 'die', term: 'Stadtvertretung', plural: '-en', english: 'city council', arabic: 'المجلس البلدي' },
       { article: 'der', term: 'Antrag', plural: '¨-e', example: 'einen Antrag stellen', english: 'application', arabic: 'طلب رسمي' },
       { article: 'das', term: 'Gesetz', plural: '-e', english: 'law', arabic: 'قانون' },
@@ -88,8 +82,6 @@ export const vocabulary: readonly VocabCategory[] = [
       { term: 'gründen', english: 'to found', arabic: 'يؤسس' },
       { term: 'unterzeichnen', english: 'to sign', arabic: 'يوقّع' },
       { term: 'vermeiden', forms: 'vermeidet, vermied, hat vermieden', english: 'to avoid', arabic: 'يتجنب' },
-      { term: 'ein|führen', example: '2002 wurde der Euro eingeführt.', english: 'to introduce', arabic: 'يُدخل؛ يعتمد' },
-      { term: 'streiken', english: 'to go on strike', arabic: 'يُضرب عن العمل' },
     ],
   },
   {
