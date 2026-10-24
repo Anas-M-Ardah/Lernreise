@@ -46,11 +46,13 @@
   </ol>
 </section>
 
-<section class="roadmap page" aria-labelledby="roadmap-heading">
-  <div class="section-heading"><div><p class="eyebrow">Die Reise geht weiter</p><h2 id="roadmap-heading">Demnächst im Lernatelier</h2></div></div>
-  <ol class="upcoming">
-    @for (chapter of upcoming; track chapter.number) {
-      <li class="upcoming__item"><span class="upcoming__number">{{ chapter.number }}</span><div><p>Kapitel {{ chapter.number }}</p><h3>{{ chapter.title }}</h3></div><span class="upcoming__soon"><app-icon name="lock" [size]="14" /> Bald</span></li>
-    }
-  </ol>
-</section>
+@if (upcoming.length) {
+  <section class="roadmap page" aria-labelledby="roadmap-heading">
+    <div class="section-heading"><div><p class="eyebrow">Die Reise geht weiter</p><h2 id="roadmap-heading">Demnächst im Lernatelier</h2></div></div>
+    <ol class="upcoming">
+      @for (chapter of upcoming; track chapter.number) {
+        <li class="upcoming__item"><span class="upcoming__number">{{ chapter.number }}</span><div><p>Kapitel {{ chapter.number }}</p><h3>{{ chapter.title }}</h3></div><span class="upcoming__soon"><app-icon name="lock" [size]="14" /> Bald</span></li>
+      }
+    </ol>
+  </section>
+}
