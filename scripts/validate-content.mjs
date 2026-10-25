@@ -73,6 +73,19 @@ for (const chapter of CHAPTERS) {
         nonempty(question.prompt, `${label} prompt`);
         assert(question.words.length >= 2, `${label} needs words to order`);
         question.words.forEach((word) => nonempty(word, `${label} word`));
+      } else if (question.kind === 'table') {
+        assert(question.columns.length > 0, `${label} needs columns`);
+        question.columns.forEach((col) => nonempty(col, `${label} column header`));
+        assert(question.rows.length > 0, `${label} needs rows`);
+        for (const tableRow of question.rows) {
+          nonempty(tableRow.label, `${label} row label`);
+          assert.equal(tableRow.cells.length, question.columns.length, `${label} row width must match columns`);
+          for (const tableCell of tableRow.cells) {
+            nonempty(tableCell.prefix, `${label} cell prefix`);
+            assert(tableCell.answers.length > 0, `${label} cell needs at least one accepted ending`);
+            tableCell.answers.forEach((answer) => nonempty(answer, `${label} cell answer`));
+          }
+        }
       } else {
         assert.equal(question.sentence.split('___').length - 1, 1, `${label} must have one gap`);
         if (question.kind === 'choice') {

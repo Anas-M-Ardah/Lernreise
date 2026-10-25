@@ -28,7 +28,31 @@ export interface OrderQuestion extends BaseQuestion {
   readonly words: readonly string[];
 }
 
-export type Question = ChoiceQuestion | GapQuestion | OrderQuestion;
+/** One blank in a {@link TableQuestion}: `prefix` + blank + optional `suffix`. */
+export interface TableCell {
+  readonly prefix: string;
+  readonly answers: readonly string[];
+  readonly suffix?: string;
+}
+
+export interface TableRow {
+  readonly label: string;
+  readonly cells: readonly TableCell[];
+}
+
+/**
+ * Fill in every ending of a declension paradigm at once — the drill shape for
+ * anything learned as a memorized grid (adjective endings, substantivized
+ * adjectives, pronoun or article tables), not just a single sentence gap.
+ */
+export interface TableQuestion extends BaseQuestion {
+  readonly kind: 'table';
+  readonly caption?: string;
+  readonly columns: readonly string[];
+  readonly rows: readonly TableRow[];
+}
+
+export type Question = ChoiceQuestion | GapQuestion | OrderQuestion | TableQuestion;
 
 export interface ExerciseSet {
   readonly id: string;

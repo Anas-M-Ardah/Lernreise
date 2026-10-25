@@ -17,10 +17,11 @@ import { solutionOf } from './question-utils';
 import { ChoiceQuestionView } from './questions/choice-question';
 import { GapQuestionView } from './questions/gap-question';
 import { OrderQuestionView } from './questions/order-question';
+import { TableQuestionView } from './questions/table-question';
 
 @Component({
   selector: 'app-exercise-player',
-  imports: [RouterLink, Icon, ChoiceQuestionView, GapQuestionView, OrderQuestionView],
+  imports: [RouterLink, Icon, ChoiceQuestionView, GapQuestionView, OrderQuestionView, TableQuestionView],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './exercise-player.html',
   styleUrl: './exercise-player.scss',

@@ -55,6 +55,9 @@
           @case ('order') {
             <app-order-question [question]="question" (checked)="onChecked($event)" />
           }
+          @case ('table') {
+            <app-table-question [question]="question" (checked)="onChecked($event)" />
+          }
         }
       </div>
 
@@ -64,7 +67,7 @@
             <span class="feedback__icon"><app-icon [name]="lastCorrect() ? 'check' : 'x'" [size]="22" /></span>
             <div class="feedback__body">
               <p class="feedback__title">{{ lastCorrect() ? 'Richtig!' : 'Leider falsch.' }}</p>
-              @if (!lastCorrect()) {
+              @if (!lastCorrect() && question.kind !== 'table') {
                 <p class="feedback__solution">{{ solution() }}</p>
               }
               @if (question.explanation) {

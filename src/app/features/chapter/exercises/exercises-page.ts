@@ -10,6 +10,7 @@ const KIND_META: Record<Question['kind'], { label: string; icon: IconName }> = {
   choice: { label: 'Auswahl', icon: 'check' },
   gap: { label: 'Lückentext', icon: 'pencil' },
   order: { label: 'Satzbau', icon: 'shuffle' },
+  table: { label: 'Endungstabelle', icon: 'layers' },
 };
 
 @Component({

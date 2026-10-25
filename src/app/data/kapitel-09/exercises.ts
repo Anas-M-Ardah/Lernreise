@@ -1,7 +1,44 @@
 import { ExerciseSet } from '../../core/models';
-import { choice as c, gap as g, order as o } from '../practice-questions';
+import { cell as x, choice as c, gap as g, order as o, row as r, table as t } from '../practice-questions';
+
+/** One full der/die/– declension paradigm for a substantivized adjective, e.g. `stem = 'Angestellt'`. */
+function substantivizedAdjective(stem: string, explanation: string) {
+  return t(undefined, ['maskulin', 'feminin', 'Plural'], [
+    r('Nom. (der/die/die)', [x(`der ${stem}`, ['e']), x(`die ${stem}`, ['e']), x(`die ${stem}`, ['en'])]),
+    r('Nom. (ein/eine/–)', [x(`ein ${stem}`, ['er']), x(`eine ${stem}`, ['e']), x(stem, ['e'])]),
+    r('Akk. (den/die/die)', [x(`den ${stem}`, ['en']), x(`die ${stem}`, ['e']), x(`die ${stem}`, ['en'])]),
+    r('Akk. (einen/eine/–)', [x(`einen ${stem}`, ['en']), x(`eine ${stem}`, ['e']), x(stem, ['e'])]),
+    r('Dat. (dem/der/den)', [x(`dem ${stem}`, ['en']), x(`der ${stem}`, ['en']), x(`den ${stem}`, ['en'])]),
+    r('Dat. (einem/einer/–)', [x(`einem ${stem}`, ['en']), x(`einer ${stem}`, ['en']), x(stem, ['en'])]),
+  ], explanation);
+}
 
 export const exercises: readonly ExerciseSet[] = [
+  {
+    id: 'adjektivendungen-tabelle', title: 'Adjektivendungen: die ganze Tabelle', topicId: 'adjektive-mit-artikel',
+    description: 'Fülle jede Zelle mit der richtigen Endung, nicht mit dem ganzen Wort.',
+    questions: [
+      t('Nach bestimmtem Artikel', ['maskulin', 'neutrum', 'feminin', 'Plural'], [
+        r('Nom.', [x('der gut', ['e'], ' Film'), x('das schön', ['e'], ' Bild'), x('die nett', ['e'], ' Person'), x('die bunt', ['en'], ' Bilder')]),
+        r('Akk.', [x('den gut', ['en'], ' Film'), x('das schön', ['e'], ' Bild'), x('die nett', ['e'], ' Person'), x('die bunt', ['en'], ' Bilder')]),
+        r('Dat.', [x('dem gut', ['en'], ' Film'), x('dem schön', ['en'], ' Bild'), x('der nett', ['en'], ' Person'), x('den bunt', ['en'], ' Bildern')]),
+      ], 'Nach bestimmtem Artikel ist die Adjektivendung schwach: fast immer -en, nur Nom. und Akk. feminin/Plural haben -e.'),
+      t('Nach ein / eine (kein Plural mit ein)', ['maskulin', 'neutrum', 'feminin'], [
+        r('Nom.', [x('ein gut', ['er'], ' Film'), x('ein schön', ['es'], ' Bild'), x('eine nett', ['e'], ' Person')]),
+        r('Akk.', [x('einen gut', ['en'], ' Film'), x('ein schön', ['es'], ' Bild'), x('eine nett', ['e'], ' Person')]),
+        r('Dat.', [x('einem gut', ['en'], ' Film'), x('einem schön', ['en'], ' Bild'), x('einer nett', ['en'], ' Person')]),
+      ], 'ein zeigt maskulin Nominativ und neutrum Nom./Akk. nicht durch eine eigene Endung; das Adjektiv übernimmt dort die starke Endung (-er, -es). Sonst wie nach dem bestimmten Artikel: -en.'),
+    ],
+  },
+  {
+    id: 'substantivierte-adjektive', title: 'Substantivierte Adjektive', topicId: 'substantivierte-adjektive',
+    description: 'der/die Angestellte, der/die Deutsche, der/die Kranke: gleiche Endungen wie beim Adjektiv, nur das Nomen fehlt.',
+    questions: [
+      substantivizedAdjective('Angestellt', 'Adjektivendungen: schwach (-e/-en) nach der/die/die, stark/gemischt (-er/-e/-en) nach ein/eine oder ohne Artikel im Plural.'),
+      substantivizedAdjective('Deutsch', 'Gleiches Muster wie bei Angestellt-: der Artikel bestimmt schwache oder starke Endung, der Stamm bleibt gleich.'),
+      substantivizedAdjective('Krank', 'Auch Krank- folgt der normalen Adjektivdeklination, obwohl es wie ein Nomen benutzt wird.'),
+    ],
+  },
   {
     id: 'adjektive-ohne-artikel', title: 'Starke Adjektivendungen', topicId: 'adjektive-ohne-artikel',
     description: 'Schreibe das vollständige Adjektiv mit Endung, nicht nur die Endung.',

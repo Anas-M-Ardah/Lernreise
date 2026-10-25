@@ -62,6 +62,24 @@ export const grammar: readonly GrammarTopic[] = [
     ],
   },
   {
+    id: 'substantivierte-adjektive', title: 'Substantivierte Adjektive',
+    summary: 'der/die Angestellte, der/die Deutsche: das Adjektiv wird zum Nomen, behält aber seine Endung.',
+    blocks: [
+      { kind: 'text', text: 'Manche *Adjektive* werden großgeschrieben und wie ein Nomen benutzt: *angestellt* → *der/die Angestellte*. Die Endung folgt weiterhin der Adjektivdeklination: nach bestimmtem Artikel schwach, nach unbestimmtem Artikel oder ohne Artikel im Plural stark/gemischt – genau wie bei *gut*er Film* oder *gute Filme*. العربية: بعض الصفات تُستخدم كأسماء، لكنها تحتفظ بنهايات تصريف الصفة.' },
+      { kind: 'table', caption: 'der/die Angestellte', head: ['Kasus', 'maskulin', 'feminin', 'Plural'], rows: [
+        ['Nom.', 'der Angestellt*e* · ein Angestellt*er*', 'die Angestellt*e* · eine Angestellt*e*', 'die Angestellt*en* · Angestellt*e*'],
+        ['Akk.', 'den Angestellt*en* · einen Angestellt*en*', 'die Angestellt*e* · eine Angestellt*e*', 'die Angestellt*en* · Angestellt*e*'],
+        ['Dat.', 'dem Angestellt*en* · einem Angestellt*en*', 'der Angestellt*en* · einer Angestellt*en*', 'den Angestellt*en* · Angestellt*en*'],
+      ] },
+      { kind: 'rule', title: 'Gleiche Endungen wie beim Adjektiv', lines: [
+        'Bestimmter Artikel (der/die/die): schwach, fast immer *-en*; nur Nom. und Akk. feminin/Plural-Subjekt haben *-e*.',
+        'Unbestimmter Artikel (ein/eine) oder ohne Artikel im Plural: stark, wie ein Adjektiv ohne Artikel → maskulin Nom. *-er*, sonst *-e*, im Dativ und Akkusativ maskulin *-en*.',
+        'Weitere Beispiele nach demselben Muster: *der/die Deutsche*, *der/die Kranke*, *der/die Erwachsene*, *der/die Fremde*, *der/die Verwandte*.',
+      ] },
+      { kind: 'tip', text: 'Zusatzthema: Diese Wörter stehen nicht im Kursbuchkapitel 9, folgen aber genau der Adjektivdeklination aus diesem Kapitel.' },
+    ],
+  },
+  {
     id: 'nicht-position', title: 'Die Position von nicht',
     summary: 'Den ganzen Satz oder einen bestimmten Satzteil verneinen.',
     blocks: [

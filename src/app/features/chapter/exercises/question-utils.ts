@@ -19,5 +19,9 @@ export function solutionOf(question: Question): string {
       return question.sentence.replace(GAP, question.answers[0]);
     case 'order':
       return question.words.join(' ');
+    case 'table':
+      return question.rows
+        .map((r) => `${r.label}: ${r.cells.map((c) => `${c.prefix}${c.answers[0]}${c.suffix ?? ''}`).join(', ')}`)
+        .join(' · ');
   }
 }
