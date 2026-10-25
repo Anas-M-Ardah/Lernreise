@@ -1,0 +1,196 @@
+@if (lesson(); as lesson) {
+  <div class="lesson">
+    <header class="lesson__top">
+      <a class="close" routerLink="/pruefung" aria-label="Lektion beenden"><app-icon name="x" [size]="26" /></a>
+      <div
+        class="bar"
+        role="progressbar"
+        aria-label="Fortschritt der Lektion"
+        [attr.aria-valuenow]="correctCount()"
+        aria-valuemin="0"
+        [attr.aria-valuemax]="queue().length"
+      >
+        <span class="bar__fill" [style.width.%]="progressRatio() * 100"></span>
+        @if (combo() >= 3 && phase() === 'play') {
+          <span class="bar__combo">{{ combo() }} in Folge</span>
+        }
+      </div>
+      @if (lesson.topic && phase() === 'play') {
+        <button type="button" class="rule-toggle" (click)="showRule.set(!showRule())" [attr.aria-expanded]="showRule()">
+          <app-icon name="lightbulb" [size]="20" /> <span>Regel</span>
+        </button>
+      }
+      <span class="hearts" [attr.aria-label]="hearts() + ' Herzen übrig'">
+        <app-icon name="heart" [size]="24" [class.hearts__icon--empty]="hearts() <= 0" /> {{ hearts() }}
+      </span>
+    </header>
+
+    @if (showRule() && lesson.topic) {
+      <aside class="rule-panel rise-in" aria-label="Regel">
+        <header class="rule-panel__head">
+          <h2>{{ lesson.topic.title }}</h2>
+          <button type="button" class="close" (click)="showRule.set(false)" aria-label="Regel schließen"><app-icon name="x" [size]="22" /></button>
+        </header>
+        @for (block of lesson.topic.blocks; track $index) {
+          <app-grammar-block [block]="block" />
+        }
+      </aside>
+    }
+
+    @switch (phase()) {
+      @case ('learn') {
+        @if (card(); as card) {
+          <section class="teach rise-in" [attr.aria-label]="'Lernkarte ' + (cardIndex() + 1) + ' von ' + cards().length">
+            <p class="lesson__kicker">
+              <span class="tag tag--learn"><app-icon [name]="lesson.topic ? 'lightbulb' : 'layers'" [size]="14" /> {{ lesson.topic ? 'Neue Regel' : 'Neue Wörter' }} · {{ cardIndex() + 1 }}/{{ cards().length }}</span>
+            </p>
+            @if (cardIndex() === 0) {
+              <h1 class="teach__title">{{ lesson.topic?.title ?? lesson.title }}</h1>
+              @if (lesson.topic) {
+                <p class="teach__summary">{{ lesson.topic.summary }}</p>
+              } @else {
+                <p class="teach__summary">Lies jedes Wort, hör es dir an – danach wird geübt.</p>
+              }
+            }
+            <div class="teach__card card">
+              @for (block of card.blocks; track $index) {
+                <app-grammar-block [block]="block" />
+              }
+              @if (card.words.length) {
+                <ul class="words">
+                  @for (word of card.words; track word.id) {
+                    <li class="word">
+                      <div class="word__main">
+                        <p class="word__term">
+                          @if (word.article) {
+                            <span class="word__article" [attr.data-article]="word.article">{{ word.article }}</span>
+                          }
+                          {{ word.term }}
+                          @if (word.pattern) {
+                            <span class="word__pattern">{{ word.pattern }}</span>
+                          }
+                        </p>
+                        @if (grammarInfo(word); as info) {
+                          <p class="word__info">{{ info }}</p>
+                        }
+                        <p class="word__meaning">{{ word.english }} · <span lang="ar" dir="rtl">{{ word.arabic }}</span></p>
+                        @if (word.example) {
+                          <p class="word__example">„{{ word.example }}“</p>
+                        }
+                      </div>
+                      @if (speech.supported) {
+                        <button type="button" class="btn btn--ghost btn--icon" (click)="speak(word)" [attr.aria-label]="word.term + ' anhören'">
+                          <app-icon name="volume-2" [size]="18" />
+                        </button>
+                      }
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+            <div class="teach__actions">
+              @if (cardIndex() > 0) {
+                <button type="button" class="btn btn--ghost" (click)="previousCard()"><app-icon name="arrow-left" [size]="18" /> Zurück</button>
+              } @else {
+                <button type="button" class="btn btn--ghost" (click)="startQuestions()">Überspringen</button>
+              }
+              <button type="button" class="btn btn--primary teach__next" (click)="nextCard()">
+                {{ cardIndex() + 1 < cards().length ? 'Verstanden' : 'Jetzt üben!' }} <app-icon name="arrow-right" [size]="18" />
+              </button>
+            </div>
+          </section>
+        }
+      }
+      @case ('done') {
+        <section class="finish rise-in">
+          <span class="finish__icon"><app-icon [name]="perfect() ? 'star' : 'trophy'" [size]="52" /></span>
+          <h1 class="finish__title">Lektion geschafft!</h1>
+          <p class="finish__verdict">{{ verdict() }}</p>
+          <ul class="tiles">
+            <li class="tile tile--xp"><span class="tile__label">XP</span><strong><app-icon name="zap" [size]="20" /> {{ xpEarned() }}</strong></li>
+            <li class="tile tile--acc"><span class="tile__label">Treffer</span><strong><app-icon name="target" [size]="20" /> {{ accuracy() * 100 | number: '1.0-0' }}%</strong></li>
+            <li class="tile tile--combo"><span class="tile__label">Beste Serie</span><strong><app-icon name="flame" [size]="20" /> {{ bestCombo() }}</strong></li>
+          </ul>
+          <p class="finish__meta">{{ durationMinutes() }} Min. · {{ initialCount() }} Fragen</p>
+          <div class="finish__actions">
+            <button type="button" class="btn btn--ghost" (click)="restart()"><app-icon name="rotate-ccw" [size]="18" /> Nochmal</button>
+            @if (lesson.chapterId) {
+              <a class="btn btn--ghost" [routerLink]="['/kapitel', lesson.chapterId, 'grammatik']"><app-icon name="book-open" [size]="18" /> Grammatik</a>
+            }
+            <a class="btn btn--primary" routerLink="/pruefung">Weiter <app-icon name="arrow-right" [size]="18" /></a>
+          </div>
+        </section>
+      }
+      @case ('out-of-hearts') {
+        <section class="finish rise-in">
+          <span class="finish__icon finish__icon--sad"><app-icon name="heart" [size]="52" /></span>
+          <h1 class="finish__title">Keine Herzen mehr!</h1>
+          <p class="finish__verdict">Kein Problem – Fehler gehören zum Lernen. Fang neu an oder übe mit 3 Herzen weiter.</p>
+          <div class="finish__actions">
+            <button type="button" class="btn btn--ghost" (click)="restart()"><app-icon name="rotate-ccw" [size]="18" /> Von vorn</button>
+            <button type="button" class="btn btn--primary" (click)="refillHearts()"><app-icon name="heart" [size]="18" /> Weiterüben</button>
+          </div>
+        </section>
+      }
+      @default {
+        @for (item of currentList(); track item.uid) {
+          <section class="lesson__body">
+            <p class="lesson__kicker">
+              @if (item.retry) {
+                <span class="tag tag--retry"><app-icon name="rotate-ccw" [size]="14" /> Wiederholung</span>
+              } @else {
+                <span class="tag">{{ lesson.title }}</span>
+              }
+            </p>
+            @switch (item.question.kind) {
+              @case ('choice') {
+                <app-choice-question [question]="item.question" (checked)="onChecked($event)" />
+              }
+              @case ('gap') {
+                <app-gap-question [question]="item.question" (checked)="onChecked($event)" />
+              }
+              @case ('order') {
+                <app-order-question [question]="item.question" (checked)="onChecked($event)" />
+              }
+              @case ('table') {
+                <app-table-question [question]="item.question" (checked)="onChecked($event)" />
+              }
+            }
+          </section>
+
+          <div class="sheet" [class.sheet--open]="result() !== null" [class.sheet--wrong]="result() === false" aria-live="polite">
+            @if (result() !== null) {
+              <div class="sheet__inner">
+                <span class="sheet__icon"><app-icon [name]="result() ? 'check' : 'x'" [size]="26" /></span>
+                <div class="sheet__body">
+                  <p class="sheet__title">{{ feedbackTitle() }}</p>
+                  @if (!result() && item.question.kind !== 'table') {
+                    <p class="sheet__solution">Lösung: {{ solution() }}</p>
+                  }
+                  @if (item.question.explanation) {
+                    <p class="sheet__explanation">{{ item.question.explanation }}</p>
+                  }
+                </div>
+                <button #nextButton type="button" class="btn sheet__next" (click)="next()">
+                  Weiter <app-icon name="arrow-right" [size]="18" />
+                </button>
+              </div>
+            }
+          </div>
+        } @empty {
+          <section class="finish">
+            <span class="finish__icon"><app-icon name="check" [size]="52" /></span>
+            <h1 class="finish__title">Keine offenen Fehler</h1>
+            <p class="finish__verdict">Alles, was du falsch hattest, hast du schon korrigiert. Weiter so!</p>
+            <div class="finish__actions"><a class="btn btn--primary" routerLink="/pruefung">Zum Pfad</a></div>
+          </section>
+        }
+      }
+    }
+  </div>
+} @else {
+  <section class="finish page">
+    <h1 class="finish__title">Diese Lektion gibt es nicht.</h1>
+    <div class="finish__actions"><a class="btn btn--primary" routerLink="/pruefung">Zum Pfad</a></div>
+  </section>
+}

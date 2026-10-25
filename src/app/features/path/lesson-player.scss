@@ -1,0 +1,434 @@
+:host {
+  display: block;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-4) 200px;
+}
+
+.lesson {
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  &__body {
+    margin-top: var(--space-6);
+  }
+
+  &__kicker {
+    margin-bottom: var(--space-4);
+  }
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-fg-muted);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-2);
+  }
+}
+
+.bar {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+
+  &__fill {
+    display: block;
+    height: 100%;
+    min-width: 16px;
+    border-radius: inherit;
+    background: linear-gradient(to bottom, #4ade80, var(--color-success));
+    transition: width var(--duration-slow) var(--ease-spring);
+  }
+
+  &__combo {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-fg);
+  }
+}
+
+.hearts {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: #e11d48;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+
+  app-icon:not(.hearts__icon--empty) ::ng-deep svg {
+    fill: currentColor;
+  }
+}
+
+.rule-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: #ca8a04;
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.rule-panel {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+  border: 2px solid #fde68a;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  max-height: 55vh;
+  overflow: auto;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+
+    h2 {
+      font-size: 1.15rem;
+    }
+  }
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+
+  &--retry {
+    background: var(--color-warning-soft);
+    color: var(--color-warning);
+  }
+
+  &--learn {
+    background: #fef9c3;
+    color: #854d0e;
+  }
+}
+
+// ── Teaching step ───────────────────────────────────────────────────────────
+
+.teach {
+  margin-top: var(--space-6);
+
+  &__title {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  &__summary {
+    margin-top: var(--space-2);
+    font-size: 1.05rem;
+    color: var(--color-fg-muted);
+  }
+
+  &__card {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding: clamp(var(--space-4), 4vw, var(--space-6));
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  &__next {
+    min-width: 160px;
+  }
+}
+
+.words {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.word {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+
+  &:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  &__term {
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  &__article {
+    &[data-article='der'] { color: var(--article-der); }
+    &[data-article='die'] { color: var(--article-die); }
+    &[data-article='das'] { color: var(--article-das); }
+  }
+
+  &__pattern,
+  &__info {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-fg-muted);
+  }
+
+  &__meaning {
+    margin-top: 2px;
+
+    [lang='ar'] {
+      font-family: var(--font-arabic);
+    }
+  }
+
+  &__example {
+    margin-top: 2px;
+    font-style: italic;
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+  }
+}
+
+// ── Feedback sheet (Duolingo-style bottom bar) ──────────────────────────────
+
+.sheet {
+  --sheet-color: var(--color-success);
+  --sheet-soft: var(--color-success-soft);
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 20;
+  transform: translateY(100%);
+  transition: transform var(--duration-base) var(--ease-out);
+  background: var(--sheet-soft);
+  border-top: 3px solid var(--sheet-color);
+
+  &--open {
+    transform: none;
+  }
+
+  &--wrong {
+    --sheet-color: var(--color-danger);
+    --sheet-soft: var(--color-danger-soft);
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: 760px;
+    margin-inline: auto;
+    padding: var(--space-4) var(--space-4) max(var(--space-4), env(safe-area-inset-bottom));
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--sheet-color);
+    color: #fff;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+    max-height: 30vh;
+    overflow: auto;
+  }
+
+  &__title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--sheet-color);
+  }
+
+  &__solution {
+    font-weight: 700;
+  }
+
+  &__explanation {
+    margin-top: var(--space-1);
+    font-size: 0.925rem;
+    color: var(--color-fg-muted);
+  }
+
+  &__next {
+    flex-shrink: 0;
+    background: var(--sheet-color);
+    color: #fff;
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--sheet-color) 70%, #000);
+  }
+}
+
+// ── Finish screen ───────────────────────────────────────────────────────────
+
+.finish {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-7) 0;
+  text-align: center;
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 104px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #fef9c3;
+    color: #ca8a04;
+    animation: pop var(--duration-slow) var(--ease-spring);
+
+    &--sad {
+      background: var(--color-danger-soft);
+      color: #e11d48;
+    }
+  }
+
+  &__title {
+    margin-top: var(--space-3);
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  &__verdict {
+    max-width: 44ch;
+    color: var(--color-fg-muted);
+    font-size: 1.05rem;
+  }
+
+  &__meta {
+    color: var(--color-fg-muted);
+    font-size: 0.85rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  width: min(100%, 460px);
+  margin: var(--space-4) 0 var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  --tile: #ca8a04;
+  overflow: hidden;
+  border: 2px solid var(--tile);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+
+  &--acc { --tile: var(--color-success); }
+  &--combo { --tile: #ea580c; }
+
+  &__label {
+    display: block;
+    padding: 2px;
+    background: var(--tile);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  strong {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-2);
+    color: var(--tile);
+    font-size: 1.3rem;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .sheet__inner {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .sheet__icon {
+    width: 36px;
+  }
+
+  .sheet__body {
+    flex-basis: calc(100% - 52px);
+  }
+
+  .sheet__next {
+    flex-basis: 100%;
+  }
+
+  .teach__next {
+    flex: 1;
+  }
+
+  .rule-toggle span {
+    display: none;
+  }
+}

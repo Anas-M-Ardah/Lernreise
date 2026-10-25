@@ -8,6 +8,16 @@ export const routes: Routes = [
     loadComponent: () => import('./features/home/home').then((m) => m.Home),
   },
   {
+    path: 'pruefung',
+    title: 'Prüfungspfad · B1.2 Lernreise',
+    loadComponent: () => import('./features/path/path-page').then((m) => m.PathPage),
+  },
+  {
+    path: 'pruefung/:lessonId',
+    title: 'Lektion · B1.2 Lernreise',
+    loadComponent: () => import('./features/path/lesson-player').then((m) => m.LessonPlayer),
+  },
+  {
     path: 'kapitel/:chapterId',
     resolve: { chapter: chapterResolver },
     loadComponent: () => import('./features/chapter/chapter-shell').then((m) => m.ChapterShell),

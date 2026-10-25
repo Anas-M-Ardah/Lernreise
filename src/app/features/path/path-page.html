@@ -1,0 +1,78 @@
+<section class="page path">
+  <header class="path__hero rise-in">
+    <div>
+      <p class="eyebrow">Endspurt zur Prüfung</p>
+      <h1 class="path__title">Prüfungspfad</h1>
+      <p class="path__lead">Kurze Lektionen wie bei Duolingo: Grammatik und Wortschatz aus den letzten drei Kapiteln, Schritt für Schritt.</p>
+    </div>
+    <ul class="stats" aria-label="Dein Fortschritt">
+      <li class="stats__item stats__item--streak" title="Tage in Folge">
+        <app-icon name="flame" [size]="22" /> <strong>{{ progress.streak() }}</strong> <span>Tage</span>
+      </li>
+      <li class="stats__item stats__item--xp" title="Erfahrungspunkte">
+        <app-icon name="zap" [size]="22" /> <strong>{{ progress.xp() }}</strong> <span>XP</span>
+      </li>
+      <li class="stats__item stats__item--goal">
+        <app-progress-ring [value]="dailyProgress()" label="Tagesziel" />
+        <span>{{ progress.todayXp() }} / {{ dailyGoal }} XP heute</span>
+      </li>
+    </ul>
+  </header>
+
+  <div class="quick rise-in" style="--i: 1">
+    <p class="quick__progress"><strong>{{ completed() }}</strong> von {{ total }} Lektionen geschafft</p>
+    @if (progress.mistakes().length) {
+      <a class="btn btn--primary quick__mistakes" routerLink="fehler">
+        <app-icon name="rotate-ccw" [size]="18" /> {{ progress.mistakes().length }} Fehler wiederholen
+      </a>
+    }
+  </div>
+
+  @for (unit of units(); track unit.id; let u = $index) {
+    <section class="unit rise-in" [attr.data-unit]="unit.number" [style.--i]="u + 2" [attr.aria-labelledby]="'unit-' + unit.id">
+      <header class="unit__banner" [class.unit__banner--final]="!unit.number">
+        <div>
+          <p class="unit__eyebrow">{{ unit.number ? 'Kapitel ' + unit.number : 'Finale' }} · {{ unit.done }}/{{ unit.lessons.length }}</p>
+          <h2 class="unit__title" [id]="'unit-' + unit.id">{{ unit.title }}</h2>
+          <p class="unit__subtitle">{{ unit.subtitle }}</p>
+        </div>
+        @if (unit.number) {
+          <a class="btn btn--ghost unit__guide" [routerLink]="['/kapitel', unit.id, 'grammatik']">
+            <app-icon name="book-open" [size]="18" /> Grammatik
+          </a>
+        }
+      </header>
+
+      <ol class="trail">
+        @for (node of unit.nodes; track node.lesson.id) {
+          @let isNext = node.lesson.id === nextLessonId();
+          <li class="trail__step" [style.--offset]="node.offset">
+            <a
+              class="node"
+              [class.node--done]="node.completed"
+              [class.node--next]="isNext"
+              [class.node--big]="node.lesson.kind === 'checkpoint' || node.lesson.kind === 'final'"
+              [routerLink]="node.lesson.id"
+              [attr.aria-label]="node.lesson.title + (node.completed ? ', geschafft' : '')"
+            >
+              @if (isNext) {
+                <span class="node__bubble">Start</span>
+              }
+              <app-icon [name]="node.completed && node.lesson.kind !== 'checkpoint' ? 'check' : node.lesson.icon" [size]="30" />
+            </a>
+            <div class="trail__label">
+              <p class="trail__name">{{ node.lesson.title }}</p>
+              @if (node.completed) {
+                <p class="trail__stars" [attr.aria-label]="node.stars + ' von 3 Sternen'">
+                  @for (s of [1, 2, 3]; track s) {
+                    <app-icon name="star" [size]="14" [class.on]="s <= node.stars" />
+                  }
+                </p>
+              }
+            </div>
+          </li>
+        }
+      </ol>
+    </section>
+  }
+</section>
