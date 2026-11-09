@@ -33,9 +33,10 @@ export class ChapterShell {
     });
   }
 
-  protected readonly tabs: readonly Tab[] = [
+  protected readonly tabs = computed<readonly Tab[]>(() => [
+    ...(this.chapter().plan ? [{ path: 'lernpfad', label: 'Lernpfad', icon: 'route' as const }] : []),
     { path: 'grammatik', label: 'Grammatik', icon: 'book-open' },
     { path: 'uebungen', label: 'Übungen', icon: 'pencil' },
     { path: 'wortschatz', label: 'Wortschatz', icon: 'layers' },
-  ];
+  ]);
 }

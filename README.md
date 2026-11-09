@@ -1,6 +1,8 @@
-# B1.2 Lernreise
+# Lernreise B1
 
-Grammar summaries, exercises and vocabulary flashcards for *Netzwerk neu B1.2* — one chapter at a time.
+Grammar summaries, exercises and vocabulary flashcards for *Netzwerk neu B1.2* and
+*Aspekte neu B1+* (course B1.3) — one chapter at a time. Chapters with a `plan`
+also get a gamified **Lernpfad**.
 
 ```bash
 npm install
@@ -49,6 +51,23 @@ Content conventions:
 - `___` marks the gap in `choice` and `gap` questions.
 - `order` questions list the words in the correct order; the app shuffles them.
 - Grammar blocks: `text`, `rule`, `tip`, `table`, `examples`, `timeline`, `clauses`, `connectors`.
+
+## B1.3 · Kapitel 1 and the Lernpfad
+
+`src/app/data/kapitel-01/` (route `/kapitel/b13-kapitel-1`) covers the first B1.3
+lesson on 09.11.2026: *Aspekte neu B1+* Kapitel 1 „Leute heute“ — Auftakt (LB S. 8–9,
+AB S. 88 Üb. 1), Modul 1 „Gelebte Träume“ (LB S. 10–11, AB S. 90 Üb. 1) and the
+homework on Präteritum/Perfekt (AB S. 90–91 Üb. 2a–c). Chapters set `course` and
+`book`; the home page groups chapters by course (B1.3 first).
+
+A chapter's optional `plan` (`plan.ts`) is a revision path in the style of a
+language-learning app: units (study days) of short lessons that reference the chapter's
+exercise sets, plus off-app homework checklists. The Lernpfad tab shows it as a
+zig-zag path. Lessons have 5 hearts, re-queue wrong answers, award XP (+5 for
+perfect runs) and feed a daily goal, a streak and a „Fehler üben“ mistakes pool.
+All stored in localStorage. `match` questions (tap pairs) are available
+everywhere. New Kapitel 1 vocabulary uses the browser's German voice until
+recordings are generated.
 
 ## Units 8 and 9
 

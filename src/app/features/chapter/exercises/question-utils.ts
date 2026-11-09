@@ -23,5 +23,7 @@ export function solutionOf(question: Question): string {
       return question.rows
         .map((r) => `${r.label}: ${r.cells.map((c) => `${c.prefix}${c.answers[0]}${c.suffix ?? ''}`).join(', ')}`)
         .join(' · ');
+    case 'match':
+      return question.pairs.map(([left, right]) => `${left} = ${right}`).join(' · ');
   }
 }

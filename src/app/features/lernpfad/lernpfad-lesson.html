@@ -1,0 +1,119 @@
+<div class="lesson page">
+  <header class="bar">
+    <a class="bar__close" [routerLink]="['/kapitel', chapter().id, 'lernpfad']" aria-label="Lektion beenden und zum Lernpfad">
+      <app-icon name="x" [size]="26" />
+    </a>
+    <div
+      class="bar__track"
+      role="progressbar"
+      aria-label="Fortschritt der Lektion"
+      [attr.aria-valuenow]="progressPercent()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      <span class="bar__fill" [style.width.%]="progressRatio() * 100"></span>
+      @if (combo() >= 3 && status() === 'playing') {
+        <span class="bar__combo">{{ combo() }} in Folge!</span>
+      }
+    </div>
+    <span class="bar__hearts" [class.bar__hearts--low]="heartsLeft() <= 1" [attr.aria-label]="heartsLeft() + ' von ' + hearts + ' Herzen'">
+      <app-icon name="heart" [size]="24" /> {{ heartsLeft() }}
+    </span>
+  </header>
+
+  @switch (status()) {
+    @case ('playing') {
+      @if (current(); as entry) {
+        <section class="stage">
+          <p class="stage__kind">
+            {{ kindLabel() }} · {{ title() }}
+            @if (entry.retry) {
+              <span class="stage__retry"><app-icon name="rotate-ccw" [size]="14" /> Noch einmal</span>
+            }
+          </p>
+
+          @for (e of [entry]; track e.uid) {
+            <div class="stage__question">
+              @let q = e.item.question;
+              @switch (q.kind) {
+                @case ('choice') {
+                  <app-choice-question [question]="q" (checked)="onChecked($event)" />
+                }
+                @case ('gap') {
+                  <app-gap-question [question]="q" (checked)="onChecked($event)" />
+                }
+                @case ('order') {
+                  <app-order-question [question]="q" (checked)="onChecked($event)" />
+                }
+                @case ('match') {
+                  <app-match-question [question]="q" (checked)="onChecked($event)" />
+                }
+                @case ('table') {
+                  <app-table-question [question]="q" (checked)="onChecked($event)" />
+                }
+              }
+            </div>
+          }
+        </section>
+
+        <footer class="sheet" [class.sheet--correct]="answered() === true" [class.sheet--wrong]="answered() === false" aria-live="polite">
+          <div class="sheet__inner page">
+            @if (answered() !== null) {
+              <span class="sheet__icon"><app-icon [name]="answered() ? 'check' : 'x'" [size]="28" /></span>
+              <div class="sheet__body">
+                <p class="sheet__title">{{ answered() ? praise() : 'Richtige Lösung:' }}</p>
+                @if (!answered()) {
+                  <p class="sheet__solution">{{ solution() }}</p>
+                }
+                @if (entry.item.question.explanation) {
+                  <p class="sheet__explanation">{{ entry.item.question.explanation }}</p>
+                }
+              </div>
+              <button #nextButton type="button" class="btn sheet__next" (click)="next()">
+                {{ heartsLeft() === 0 ? 'Ende' : 'Weiter' }}
+              </button>
+            } @else {
+              <p class="sheet__hint"><app-icon name="lightbulb" [size]="18" /> Antwort wählen, tippen oder zusammenbauen.</p>
+            }
+          </div>
+        </footer>
+      } @else {
+        <div class="end">
+          <p>{{ isMistakes() ? 'Keine Fehler zum Üben – sehr gut!' : 'Diese Lektion gibt es nicht.' }}</p>
+          <a class="btn btn--primary" [routerLink]="['/kapitel', chapter().id, 'lernpfad']">Zum Lernpfad</a>
+        </div>
+      }
+    }
+    @case ('won') {
+      <div class="end rise-in">
+        <span class="end__badge" [class.end__badge--perfect]="perfect()"><app-icon [name]="perfect() ? 'star' : 'trophy'" [size]="48" /></span>
+        <h1>{{ perfect() ? 'Fehlerfrei!' : 'Lektion geschafft!' }}</h1>
+        <p class="end__lead">{{ title() }}</p>
+        <ul class="end__stats">
+          <li class="end__stat end__stat--xp"><span>XP</span><strong><app-icon name="zap" [size]="20" /> +{{ earnedXp() }}</strong></li>
+          <li class="end__stat end__stat--acc"><span>Genauigkeit</span><strong><app-icon name="target" [size]="20" /> {{ accuracy() }}%</strong></li>
+          <li class="end__stat end__stat--streak"><span>Serie</span><strong><app-icon name="flame" [size]="20" /> {{ streak() }}</strong></li>
+        </ul>
+        <p class="end__goal">
+          Tagesziel: {{ todayXp() }} / {{ dailyGoal() }} XP
+          @if (todayXp() >= dailyGoal()) { – erreicht! }
+        </p>
+        <div class="end__actions">
+          <button type="button" class="btn btn--ghost" (click)="start()"><app-icon name="rotate-ccw" [size]="18" /> Nochmal</button>
+          <a class="btn btn--primary" [routerLink]="['/kapitel', chapter().id, 'lernpfad']">Weiter <app-icon name="arrow-right" [size]="18" /></a>
+        </div>
+      </div>
+    }
+    @case ('lost') {
+      <div class="end rise-in">
+        <span class="end__badge end__badge--lost"><app-icon name="heart" [size]="48" /></span>
+        <h1>Keine Herzen mehr</h1>
+        <p class="end__lead">Kein Problem – deine Fehler sind gespeichert. Lies kurz die Grammatik und versuch es noch einmal.</p>
+        <div class="end__actions">
+          <a class="btn btn--ghost" [routerLink]="['/kapitel', chapter().id, 'grammatik']"><app-icon name="book-open" [size]="18" /> Grammatik</a>
+          <button type="button" class="btn btn--primary" (click)="start()"><app-icon name="rotate-ccw" [size]="18" /> Neu starten</button>
+        </div>
+      </div>
+    }
+  }
+</div>

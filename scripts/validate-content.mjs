@@ -69,7 +69,13 @@ for (const chapter of CHAPTERS) {
     for (const [index, question] of set.questions.entries()) {
       const label = `${chapter.id}/${set.id}/${index + 1}`;
       if (chapter.number >= 8) nonempty(question.explanation, `${label} explanation`);
-      if (question.kind === 'order') {
+      if (question.kind === 'match') {
+        nonempty(question.prompt, `${label} prompt`);
+        assert(question.pairs.length >= 2, `${label} needs at least two pairs`);
+        unique(question.pairs.map(([left]) => left), `${label} left tiles`);
+        unique(question.pairs.map(([, right]) => right), `${label} right tiles`);
+        question.pairs.flat().forEach((text) => nonempty(text, `${label} tile`));
+      } else if (question.kind === 'order') {
         nonempty(question.prompt, `${label} prompt`);
         assert(question.words.length >= 2, `${label} needs words to order`);
         question.words.forEach((word) => nonempty(word, `${label} word`));
@@ -101,6 +107,23 @@ for (const chapter of CHAPTERS) {
         }
       }
     }
+  }
+  if (chapter.plan) {
+    const setIds = new Set(chapter.exercises.map((set) => set.id));
+    const units = chapter.plan.units;
+    const lessons = units.flatMap((unit) => unit.lessons);
+    unique(units.map((unit) => unit.id), `${chapter.id} unit IDs`);
+    unique(lessons.map((lesson) => lesson.id), `${chapter.id} lesson IDs`);
+    unique(units.flatMap((unit) => unit.tasks ?? []).map((task) => task.id), `${chapter.id} task IDs`);
+    assert(chapter.plan.dailyGoal > 0, `${chapter.id} needs a daily goal`);
+    for (const lesson of lessons) {
+      assert(['vocab', 'reading', 'grammar', 'speaking', 'review'].includes(lesson.kind), `${lesson.id} has unknown kind`);
+      assert(lesson.setIds.length > 0, `${lesson.id} has no exercise sets`);
+      lesson.setIds.forEach((id) => assert(setIds.has(id), `${lesson.id} refers to missing set ${id}`));
+    }
+    const used = new Set(lessons.flatMap((lesson) => lesson.setIds));
+    chapter.exercises.forEach((set) => assert(used.has(set.id), `${set.id} is not part of the Lernpfad`));
+    console.log(`Kapitel ${chapter.number} Lernpfad: ${units.length} units, ${lessons.length} lessons`);
   }
   const entries = chapter.vocabulary.flatMap((category) => category.entries);
   unique(entries.map((entry) => slugify([entry.article, entry.term, entry.pattern].filter(Boolean).join(' '))), `${chapter.id} vocabulary card IDs`);

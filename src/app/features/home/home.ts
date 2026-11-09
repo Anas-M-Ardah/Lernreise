@@ -40,4 +40,17 @@ export class Home {
       };
     });
   });
+
+  /** Chapters grouped by course level, newest course first (B1.3 before B1.2). */
+  protected readonly courses = computed(() => {
+    const list = this.chapters();
+    const groups = new Map<string, { course: string; book: string; items: typeof list }>();
+    for (const item of list) {
+      const course = item.chapter.course ?? 'B1.2';
+      const group = groups.get(course) ?? { course, book: item.chapter.book ?? 'Netzwerk neu B1.2', items: [] };
+      group.items.push(item);
+      groups.set(course, group);
+    }
+    return [...groups.values()].sort((a, b) => b.course.localeCompare(a.course));
+  });
 }

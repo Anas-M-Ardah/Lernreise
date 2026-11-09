@@ -66,3 +66,20 @@
   .section-heading > p { display: none; }
   .exam-banner { flex-wrap: wrap; .btn { width: 100%; } }
 }
+
+.course-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 32px 0 16px;
+  font-size: 1.1rem;
+  font-weight: 800;
+
+  &__level {
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: .8rem;
+  }
+}

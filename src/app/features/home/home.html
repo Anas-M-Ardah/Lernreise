@@ -1,6 +1,6 @@
 <section class="hero page">
   <div class="hero__copy rise-in">
-    <p class="eyebrow">Dein Lernatelier · Netzwerk neu B1.2</p>
+    <p class="eyebrow">Dein Lernatelier · B1.2 &amp; B1.3</p>
     <h1 class="hero__title">Kleine Schritte.<br /><span>Neue Perspektiven.</span></h1>
     <p class="hero__lead">Menschen, Musik und Kunst. Entdecke dein nächstes Kapitel – und mache Deutsch zu deiner Sprache.</p>
     <a class="btn btn--primary hero__action" href="#chapters-heading">Kapitel entdecken <app-icon name="arrow-right" [size]="18" /></a>
@@ -29,16 +29,18 @@
     <div><p class="eyebrow">Wähle deine Lernwelt</p><h2 id="chapters-heading">Deine Kapitel</h2></div>
     <p>Verstehen. Ausprobieren. Behalten.</p>
   </div>
+  @for (group of courses(); track group.course) {
+  <h3 class="course-heading"><span class="course-heading__level">{{ group.course }}</span> {{ group.book }}</h3>
   <ol class="chapters">
-    @for (item of chapters(); track item.chapter.id; let i = $index) {
+    @for (item of group.items; track item.chapter.id; let i = $index) {
       <li class="rise-in" [style.--i]="i + 2">
         <a class="chapter card" [attr.data-unit]="item.chapter.number" [routerLink]="['/kapitel', item.chapter.id]">
           <div class="chapter__cover">
-            <div class="chapter__cover-top"><span class="chapter__label"><app-icon [name]="item.theme.icon" [size]="15" /> {{ item.theme.label }}</span><span class="chapter__number">0{{ item.chapter.number }}</span></div>
+            <div class="chapter__cover-top"><span class="chapter__label"><app-icon [name]="item.theme.icon" [size]="15" /> {{ item.theme.label }}</span><span class="chapter__number">{{ item.chapter.number < 10 ? '0' : '' }}{{ item.chapter.number }}</span></div>
             <app-chapter-art [unit]="item.chapter.number" />
           </div>
           <div class="chapter__body">
-            <p class="eyebrow">Kapitel {{ item.chapter.number }}</p>
+            <p class="eyebrow">{{ item.chapter.course ?? 'B1.2' }} · Kapitel {{ item.chapter.number }}</p>
             <h3 class="chapter__title">{{ item.chapter.title }}</h3>
             <p class="chapter__subtitle">{{ item.chapter.subtitle }}</p>
             <ul class="chapter__stats">
@@ -55,6 +57,7 @@
       </li>
     }
   </ol>
+  }
 </section>
 
 @if (upcoming.length) {

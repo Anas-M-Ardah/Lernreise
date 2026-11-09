@@ -7,6 +7,7 @@ export interface ChapterTheme {
 }
 
 const themes: Record<number, ChapterTheme> = {
+  1: { label: 'Lebensträume', icon: 'star', note: 'Menschen kennenlernen. Träume leben.' },
   7: { label: 'Verbindungen', icon: 'heart', note: 'Menschen verstehen. Geschichten erzählen.' },
   8: { label: 'Balance & Rhythmus', icon: 'music', note: 'Den Körper spüren. Den Geist stärken.' },
   9: { label: 'Das Kreativatelier', icon: 'palette', note: 'Kunst entdecken. Eigene Ideen ausdrücken.' },

@@ -8,6 +8,17 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   template: `
     <svg viewBox="0 0 320 210" fill="none" aria-hidden="true" focusable="false">
       @switch (unit()) {
+        @case (1) {
+          <circle cx="250" cy="56" r="30" class="pop" />
+          <path d="M70 130C40 130 32 92 62 84C60 52 104 42 120 66C134 36 188 40 192 76C226 74 236 122 202 130H70Z" class="soft" />
+          <path d="M88 108L98 88L108 108L88 96H108L88 108Z" class="accent" />
+          <path d="M140 102L148 86L156 102L140 92H156L140 102Z" class="accent" />
+          <path d="M40 186C90 160 120 196 170 170C210 150 240 176 290 156" class="line" />
+          <circle cx="40" cy="186" r="9" class="accent" />
+          <circle cx="170" cy="170" r="9" class="accent" />
+          <circle cx="290" cy="156" r="12" class="pop" />
+          <path d="M268 100V118M259 109H277" class="line" />
+        }
         @case (7) {
           <circle cx="246" cy="57" r="31" class="pop" />
           <path d="M53 179C15 107 48 31 132 31H158V179H53Z" class="soft" />

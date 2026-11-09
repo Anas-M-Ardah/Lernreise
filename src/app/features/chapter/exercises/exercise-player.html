@@ -58,6 +58,9 @@
           @case ('table') {
             <app-table-question [question]="question" (checked)="onChecked($event)" />
           }
+          @case ('match') {
+            <app-match-question [question]="question" (checked)="onChecked($event)" />
+          }
         }
       </div>
 

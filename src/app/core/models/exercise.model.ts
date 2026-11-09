@@ -52,7 +52,14 @@ export interface TableQuestion extends BaseQuestion {
   readonly rows: readonly TableRow[];
 }
 
-export type Question = ChoiceQuestion | GapQuestion | OrderQuestion | TableQuestion;
+/** Tap the matching pairs, e.g. word ↔ meaning or Infinitiv ↔ Präteritum. */
+export interface MatchQuestion extends BaseQuestion {
+  readonly kind: 'match';
+  readonly prompt: string;
+  readonly pairs: readonly (readonly [string, string])[];
+}
+
+export type Question = ChoiceQuestion | GapQuestion | OrderQuestion | TableQuestion | MatchQuestion;
 
 export interface ExerciseSet {
   readonly id: string;

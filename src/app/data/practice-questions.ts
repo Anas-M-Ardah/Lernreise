@@ -1,4 +1,4 @@
-import { ChoiceQuestion, GapQuestion, OrderQuestion, TableCell, TableQuestion, TableRow } from '../core/models';
+import { ChoiceQuestion, GapQuestion, MatchQuestion, OrderQuestion, TableCell, TableQuestion, TableRow } from '../core/models';
 
 /** Small constructors keep authored practice content readable and fully typed. */
 export function choice(sentence: string, options: readonly string[], answer: string, explanation: string): ChoiceQuestion {
@@ -29,4 +29,8 @@ export function table(
   explanation: string,
 ): TableQuestion {
   return { kind: 'table', caption, columns, rows, explanation };
+}
+
+export function match(prompt: string, pairs: readonly (readonly [string, string])[], explanation: string): MatchQuestion {
+  return { kind: 'match', prompt, pairs, explanation };
 }

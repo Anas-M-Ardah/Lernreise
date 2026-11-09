@@ -11,6 +11,7 @@ const KIND_META: Record<Question['kind'], { label: string; icon: IconName }> = {
   gap: { label: 'Lückentext', icon: 'pencil' },
   order: { label: 'Satzbau', icon: 'shuffle' },
   table: { label: 'Endungstabelle', icon: 'layers' },
+  match: { label: 'Paare', icon: 'layers' },
 };
 
 @Component({

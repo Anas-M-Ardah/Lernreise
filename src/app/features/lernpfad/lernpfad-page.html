@@ -1,0 +1,125 @@
+@if (plan(); as plan) {
+  <section class="stats card" aria-label="Dein Lernstand">
+    <div class="stat stat--streak" [class.stat--active]="streak() > 0">
+      <app-icon name="flame" [size]="26" />
+      <div><strong>{{ streak() }}</strong><span>{{ streak() === 1 ? 'Tag' : 'Tage' }} Serie</span></div>
+    </div>
+    <div class="stat stat--xp">
+      <app-icon name="zap" [size]="26" />
+      <div><strong>{{ totalXp() }}</strong><span>XP gesamt</span></div>
+    </div>
+    <div class="stat stat--goal">
+      <app-progress-ring [value]="goalRatio()" label="Tagesziel" />
+      <div><strong>{{ todayXp() }} / {{ dailyGoal() }}</strong><span>XP Tagesziel</span></div>
+    </div>
+    <ol class="week" aria-label="Die letzten sieben Tage">
+      @for (day of week(); track day.key; let last = $last) {
+        <li class="week__day" [class.week__day--done]="day.xp > 0" [class.week__day--today]="last">
+          <span class="week__dot"><app-icon [name]="day.xp > 0 ? 'flame' : 'calendar'" [size]="14" /></span>
+          <span class="week__label">{{ day.label }}</span>
+          <span class="visually-hidden">{{ day.xp }} XP</span>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <header class="plan-head">
+    <div>
+      <p class="eyebrow"><app-icon name="route" [size]="14" /> Wiederholungsplan</p>
+      <h2>{{ plan.title }}</h2>
+      <p class="plan-head__intro">{{ plan.intro }}</p>
+    </div>
+    <p class="plan-head__overall"><strong>{{ overall().done }}</strong> / {{ overall().total }} Lektionen</p>
+  </header>
+
+  @if (mistakeCount() > 0) {
+    <a class="mistakes card rise-in" [routerLink]="['/kapitel', chapter().id, 'lektion', mistakesLessonId]">
+      <span class="mistakes__icon"><app-icon name="rotate-ccw" [size]="22" /></span>
+      <span class="mistakes__text">
+        <strong>Fehler üben</strong>
+        <span>{{ mistakeCount() }} {{ mistakeCount() === 1 ? 'Aufgabe wartet' : 'Aufgaben warten' }} auf eine zweite Chance.</span>
+      </span>
+      <app-icon name="arrow-right" [size]="20" />
+    </a>
+  }
+
+  @for (item of units(); track item.unit.id; let u = $index) {
+    <section class="unit" [attr.aria-labelledby]="item.unit.id + '-title'">
+      <header class="unit__banner" [class.unit__banner--done]="item.ratio === 1">
+        <div class="unit__text">
+          <p class="unit__day"><app-icon name="calendar" [size]="14" /> Teil {{ u + 1 }} · {{ item.unit.day }}</p>
+          <h3 class="unit__title" [id]="item.unit.id + '-title'">{{ item.unit.title }}</h3>
+          <p class="unit__description">{{ item.unit.description }}</p>
+          <p class="unit__source"><app-icon name="book-open" [size]="14" /> {{ item.unit.source }}</p>
+        </div>
+        <div class="unit__progress">
+          <app-progress-ring [value]="item.ratio" [label]="'Teil ' + (u + 1) + ' geschafft'" />
+          <span>{{ item.done }}/{{ item.nodes.length }}</span>
+        </div>
+      </header>
+
+      <ol class="path">
+        @for (node of item.nodes; track node.lesson.id) {
+          <li class="path__item" [class.path__item--current]="node.state === 'current'" [style.--offset]="node.offset">
+            <span class="path__bubble">
+              @if (node.state === 'current') {
+                <span class="path__start" aria-hidden="true">Start</span>
+              }
+              @if (node.state === 'locked') {
+                <span class="node node--locked" role="img" [attr.aria-label]="node.lesson.title + ' – noch gesperrt'">
+                  <app-icon name="lock" [size]="26" />
+                </span>
+              } @else {
+                <a
+                  class="node"
+                  [class.node--done]="node.state === 'done'"
+                  [class.node--perfect]="node.perfect"
+                  [class.node--current]="node.state === 'current'"
+                  [class.node--review]="node.lesson.kind === 'review'"
+                  [routerLink]="['/kapitel', chapter().id, 'lektion', node.lesson.id]"
+                  [attr.aria-label]="node.lesson.title + (node.state === 'done' ? ' – geschafft' : ' – starten')"
+                >
+                  <app-icon [name]="node.state === 'done' ? (node.perfect ? 'star' : 'check') : node.meta.icon" [size]="30" />
+                </a>
+              }
+            </span>
+            <span class="path__label" [class.path__label--locked]="node.state === 'locked'">
+              <strong>{{ node.lesson.title }}</strong>
+              <span>{{ node.meta.label }} · {{ node.questions }} Aufgaben{{ node.perfect ? ' · fehlerfrei' : '' }}</span>
+            </span>
+          </li>
+        }
+      </ol>
+
+      @if (item.tasks.length) {
+        <div class="tasks card">
+          <p class="tasks__title"><app-icon name="pencil" [size]="16" /> Außerhalb der App erledigen</p>
+          <ul>
+            @for (t of item.tasks; track t.task.id) {
+              <li>
+                <label class="task" [class.task--done]="t.done">
+                  <input type="checkbox" [checked]="t.done" (change)="toggleTask(t.task.id)" />
+                  <span>{{ t.task.text }}@if (t.task.optional) {<em>fakultativ</em>}</span>
+                </label>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </section>
+  }
+
+  @if (overall().ratio === 1) {
+    <div class="finish card rise-in">
+      <span class="finish__icon"><app-icon name="trophy" [size]="40" /></span>
+      <h3>Kapitel geschafft!</h3>
+      <p>Alle Lektionen sind erledigt. Halte deine Serie mit „Fehler üben“ oder dem Kapiteltest am Leben.</p>
+    </div>
+  }
+
+  <p class="reset">
+    <button type="button" class="btn btn--ghost" (click)="reset()"><app-icon name="rotate-ccw" [size]="16" /> Lernpfad zurücksetzen</button>
+  </p>
+} @else {
+  <p class="card empty">Für dieses Kapitel gibt es noch keinen Lernpfad.</p>
+}
