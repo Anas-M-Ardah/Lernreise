@@ -66,8 +66,7 @@ exercise sets, plus off-app homework checklists. The Lernpfad tab shows it as a
 zig-zag path. Lessons have 5 hearts, re-queue wrong answers, award XP (+5 for
 perfect runs) and feed a daily goal, a streak and a „Fehler üben“ mistakes pool.
 All stored in localStorage. `match` questions (tap pairs) are available
-everywhere. New Kapitel 1 vocabulary uses the browser's German voice until
-recordings are generated.
+everywhere.
 
 ## Units 8 and 9
 
@@ -107,8 +106,8 @@ to verify the Angular production build.
 ## German pronunciation
 
 Vocabulary playback defaults to bundled German recordings generated with the
-`de-DE-KatjaNeural` voice. All 286 vocabulary cards across Units 7–9 are covered
-(285 unique spoken forms plus a voice-test sample; 3.23 MB of MP3 audio). No
+`de-DE-KatjaNeural` voice. Every vocabulary card is covered: B1.2 Units 7–12 and
+B1.3 Kapitel 1 (532 recordings including a voice-test sample; 6.23 MB of MP3 audio). No
 installed German voice or live external speech service is needed for playback.
 The service worker downloads these recordings for offline use during installation
 and updates; let that download finish before studying offline.
@@ -123,7 +122,7 @@ cancellation, German-only fallback and error handling. Run `npm run check:audio`
 to verify MP3 files and coverage of every vocabulary card. Both checks run in CI.
 
 To regenerate after editing vocabulary, run `node scripts/export-audio.mjs`,
-then install `edge-tts==7.2.8` and run `python scripts/generate-audio.py`.
+then install `edge-tts==7.3.1` (7.2.8 is now rejected by the service with HTTP 403) and run `python scripts/generate-audio.py`.
 Generation sends German vocabulary text to Microsoft Edge's online speech
 service through [edge-tts](https://github.com/rany2/edge-tts); it runs only during
 asset generation, with the repository owner's authorization. It is not used at

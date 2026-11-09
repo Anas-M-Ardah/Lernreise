@@ -1,4 +1,4 @@
-"""Generate bundled German MP3s. Requires edge-tts==7.2.8; run export-audio.mjs first."""
+"""Generate bundled German MP3s. Requires edge-tts==7.3.1; run export-audio.mjs first."""
 import asyncio
 import json
 from pathlib import Path
